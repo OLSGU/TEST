@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pcr_document_list" model="ir.ui.view">
+        <field name="name">pcr.document.list</field>
+        <field name="model">pcr.document</field>
+        <field name="arch" type="xml">
+            <list string="Документы">
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="doc_type"/>
+                <field name="contract_id"/>
+                <field name="project_id"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'confirmed'"
+                       decoration-muted="state == 'archived'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pcr_document_form" model="ir.ui.view">
+        <field name="name">pcr.document.form</field>
+        <field name="model">pcr.document</field>
+        <field name="arch" type="xml">
+            <form string="Документ">
+                <header>
+                    <button name="action_confirm" type="object" string="Подтвердить"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_archive_doc" type="object" string="В архив"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_set_draft" type="object" string="В черновик"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed,archived"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Наименование документа"/></h1>
+                        <h2><field name="reference" readonly="1"/></h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="contract_id"/>
+                            <field name="project_id"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="doc_type"/>
+                            <field name="date"/>
+                            <field name="file" filename="file_name"/>
+                            <field name="file_name" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Примечание">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pcr_document_search" model="ir.ui.view">
+        <field name="name">pcr.document.search</field>
+        <field name="model">pcr.document</field>
+        <field name="arch" type="xml">
+            <search string="Поиск документов">
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="contract_id"/>
+                <field name="project_id"/>
+                <field name="partner_id"/>
+                <filter name="filter_draft" string="Черновики"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_confirmed" string="Подтверждённые"
+                        domain="[('state', '=', 'confirmed')]"/>
+                <separator/>
+                <filter name="filter_archived" string="В архиве"
+                        domain="[('active', '=', False)]"/>
+                <group expand="0" string="Группировка">
+                    <filter name="group_type" string="Тип документа"
+                            context="{'group_by': 'doc_type'}"/>
+                    <filter name="group_state" string="Статус"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_contract" string="Договор"
+                            context="{'group_by': 'contract_id'}"/>
+                    <filter name="group_project" string="Проект"
+                            context="{'group_by': 'project_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pcr_document" model="ir.actions.act_window">
+        <field name="name">Документы</field>
+        <field name="res_model">pcr.document</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_pcr_document_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Добавьте первый документ
+            </p>
+            <p>
+                Документы привязываются к договору и наследуют его проект и контрагента.
+            </p>
+        </field>
+    </record>
+
+</odoo>
