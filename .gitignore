@@ -1,0 +1,17 @@
+# Local environment
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Odoo runtime
+*.log
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
