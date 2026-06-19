@@ -7,9 +7,9 @@
 Пилотный модуль реестра договоров и документов по проектам.
 
 Реализует базовую иерархию сущностей: Проект → Договор → Документ.
-Архитектура single-company (одна компания). Реквизиты контрагентов
-(ИНН/КПП) берутся из стандартного res.partner; для российских полей
-рекомендуется установить локализацию l10n_ru.
+Архитектура single-company (одна компания). Поскольку официальная
+локализация l10n_ru в Odoo больше не поставляется, российские реквизиты
+контрагентов (ИНН/КПП/ОГРН) добавляются этим модулем прямо в res.partner.
 """,
     "author": "Project Contract Registry",
     "website": "https://example.com",
@@ -21,6 +21,7 @@
         "security/ir.model.access.csv",
         "security/pcr_record_rules.xml",
         "data/ir_sequence_data.xml",
+        "views/res_partner_views.xml",
         "views/project_views.xml",
         "views/contract_views.xml",
         "views/document_views.xml",

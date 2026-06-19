@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_ru_requisites" model="ir.ui.view">
+        <field name="name">res.partner.form.ru.requisites</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Добавляем отдельную вкладку с российскими реквизитами.
+                 Якорь на notebook надёжен для стандартной формы контакта. -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Реквизиты (РФ)" name="ru_requisites">
+                    <group>
+                        <group string="Идентификаторы">
+                            <field name="l10n_ru_inn" placeholder="10 или 12 цифр"/>
+                            <field name="l10n_ru_kpp" placeholder="9 цифр"/>
+                            <field name="l10n_ru_ogrn" placeholder="13 или 15 цифр"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
