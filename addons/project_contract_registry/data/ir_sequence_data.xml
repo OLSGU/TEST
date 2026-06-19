@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_pcr_project" model="ir.sequence">
+            <field name="name">Проект (Реестр)</field>
+            <field name="code">pcr.project</field>
+            <field name="prefix">PRJ/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_pcr_contract" model="ir.sequence">
+            <field name="name">Договор (Реестр)</field>
+            <field name="code">pcr.contract</field>
+            <field name="prefix">CTR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_pcr_document" model="ir.sequence">
+            <field name="name">Документ (Реестр)</field>
+            <field name="code">pcr.document</field>
+            <field name="prefix">DOC/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

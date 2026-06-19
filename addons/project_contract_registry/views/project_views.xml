@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pcr_project_list" model="ir.ui.view">
+        <field name="name">pcr.project.list</field>
+        <field name="model">pcr.project</field>
+        <field name="arch" type="xml">
+            <list string="Проекты">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="manager_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="contract_count" string="Договоров"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'active'"
+                       decoration-success="state == 'done'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pcr_project_form" model="ir.ui.view">
+        <field name="name">pcr.project.form</field>
+        <field name="model">pcr.project</field>
+        <field name="arch" type="xml">
+            <form string="Проект">
+                <header>
+                    <button name="action_set_active" type="object" string="В работу"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_set_done" type="object" string="Завершить"
+                            class="oe_highlight" invisible="state != 'active'"/>
+                    <button name="action_set_cancelled" type="object" string="Отменить"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <button name="action_set_draft" type="object" string="В черновик"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,active,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_contracts" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o">
+                            <field name="contract_count" widget="statinfo"
+                                   string="Договоры"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Название проекта"/></h1>
+                        <h2><field name="code" readonly="1"/></h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="manager_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Договоры" name="contracts">
+                            <field name="contract_ids" context="{'default_project_id': id}">
+                                <list string="Договоры">
+                                    <field name="name"/>
+                                    <field name="title"/>
+                                    <field name="partner_id"/>
+                                    <field name="date_signed"/>
+                                    <field name="amount"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Описание" name="description">
+                            <field name="description" placeholder="Краткое описание проекта..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pcr_project_search" model="ir.ui.view">
+        <field name="name">pcr.project.search</field>
+        <field name="model">pcr.project</field>
+        <field name="arch" type="xml">
+            <search string="Поиск проектов">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="partner_id"/>
+                <field name="manager_id"/>
+                <filter name="filter_draft" string="Черновики"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_active" string="В работе"
+                        domain="[('state', '=', 'active')]"/>
+                <filter name="filter_done" string="Завершённые"
+                        domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <filter name="filter_archived" string="В архиве"
+                        domain="[('active', '=', False)]"/>
+                <group expand="0" string="Группировка">
+                    <filter name="group_state" string="Статус"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_manager" string="Руководитель"
+                            context="{'group_by': 'manager_id'}"/>
+                    <filter name="group_partner" string="Заказчик"
+                            context="{'group_by': 'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pcr_project" model="ir.actions.act_window">
+        <field name="name">Проекты</field>
+        <field name="res_model">pcr.project</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_pcr_project_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Создайте первый проект
+            </p>
+            <p>
+                Проект объединяет договоры и связанные с ними документы.
+            </p>
+        </field>
+    </record>
+
+</odoo>
