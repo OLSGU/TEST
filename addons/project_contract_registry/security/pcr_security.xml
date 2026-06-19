@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Категория и группы доступа -->
+    <data>
+
+        <record id="module_category_pcr" model="ir.module.category">
+            <field name="name">Реестр договоров</field>
+            <field name="description">Доступ к реестру проектов, договоров и документов</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="group_pcr_user" model="res.groups">
+            <field name="name">Пользователь</field>
+            <field name="category_id" ref="module_category_pcr"/>
+            <field name="comment">Просмотр всех записей реестра; создание и изменение
+                своих (где пользователь — руководитель проекта или автор записи)
+                проектов, договоров и документов. Без удаления.</field>
+        </record>
+
+        <record id="group_pcr_manager" model="res.groups">
+            <field name="name">Администратор</field>
+            <field name="category_id" ref="module_category_pcr"/>
+            <field name="implied_ids" eval="[(4, ref('group_pcr_user'))]"/>
+            <field name="comment">Полный доступ ко всем записям реестра, включая удаление.</field>
+        </record>
+
+    </data>
+
+    <!-- Первичное назначение администратора (только при установке) -->
+    <data noupdate="1">
+
+        <record id="base.user_admin" model="res.users">
+            <field name="groups_id" eval="[(4, ref('group_pcr_manager'))]"/>
+        </record>
+
+    </data>
+
+</odoo>

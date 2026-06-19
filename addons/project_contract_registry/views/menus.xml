@@ -3,6 +3,7 @@
 
     <menuitem id="menu_pcr_root"
               name="Реестр договоров"
+              groups="project_contract_registry.group_pcr_user"
               sequence="20"/>
 
     <menuitem id="menu_pcr_projects"

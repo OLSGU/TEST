@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- =================== Проекты =================== -->
+
+        <!-- Администратор: полный доступ ко всем проектам -->
+        <record id="rule_pcr_project_manager" model="ir.rule">
+            <field name="name">Проекты: администратор — все записи</field>
+            <field name="model_id" ref="model_pcr_project"/>
+            <field name="groups" eval="[(4, ref('group_pcr_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Пользователь: чтение всех проектов -->
+        <record id="rule_pcr_project_user_read" model="ir.rule">
+            <field name="name">Проекты: пользователь — чтение всех</field>
+            <field name="model_id" ref="model_pcr_project"/>
+            <field name="groups" eval="[(4, ref('group_pcr_user'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Пользователь: изменение/создание своих проектов -->
+        <record id="rule_pcr_project_user_write" model="ir.rule">
+            <field name="name">Проекты: пользователь — изменение своих</field>
+            <field name="model_id" ref="model_pcr_project"/>
+            <field name="groups" eval="[(4, ref('group_pcr_user'))]"/>
+            <field name="domain_force">['|', ('manager_id', '=', user.id), ('create_uid', '=', user.id)]</field>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- =================== Договоры =================== -->
+
+        <record id="rule_pcr_contract_manager" model="ir.rule">
+            <field name="name">Договоры: администратор — все записи</field>
+            <field name="model_id" ref="model_pcr_contract"/>
+            <field name="groups" eval="[(4, ref('group_pcr_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="rule_pcr_contract_user_read" model="ir.rule">
+            <field name="name">Договоры: пользователь — чтение всех</field>
+            <field name="model_id" ref="model_pcr_contract"/>
+            <field name="groups" eval="[(4, ref('group_pcr_user'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_pcr_contract_user_write" model="ir.rule">
+            <field name="name">Договоры: пользователь — изменение своих</field>
+            <field name="model_id" ref="model_pcr_contract"/>
+            <field name="groups" eval="[(4, ref('group_pcr_user'))]"/>
+            <field name="domain_force">['|', ('create_uid', '=', user.id), ('project_id.manager_id', '=', user.id)]</field>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- =================== Документы =================== -->
+
+        <record id="rule_pcr_document_manager" model="ir.rule">
+            <field name="name">Документы: администратор — все записи</field>
+            <field name="model_id" ref="model_pcr_document"/>
+            <field name="groups" eval="[(4, ref('group_pcr_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="rule_pcr_document_user_read" model="ir.rule">
+            <field name="name">Документы: пользователь — чтение всех</field>
+            <field name="model_id" ref="model_pcr_document"/>
+            <field name="groups" eval="[(4, ref('group_pcr_user'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_pcr_document_user_write" model="ir.rule">
+            <field name="name">Документы: пользователь — изменение своих</field>
+            <field name="model_id" ref="model_pcr_document"/>
+            <field name="groups" eval="[(4, ref('group_pcr_user'))]"/>
+            <field name="domain_force">['|', ('create_uid', '=', user.id), ('project_id.manager_id', '=', user.id)]</field>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

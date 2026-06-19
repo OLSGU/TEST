@@ -17,7 +17,9 @@
     "license": "LGPL-3",
     "depends": ["mail"],
     "data": [
+        "security/pcr_security.xml",
         "security/ir.model.access.csv",
+        "security/pcr_record_rules.xml",
         "data/ir_sequence_data.xml",
         "views/project_views.xml",
         "views/contract_views.xml",
