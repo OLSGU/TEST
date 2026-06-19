@@ -22,7 +22,7 @@ services:
     restart: unless-stopped
 
   odoo:
-    image: odoo:${ODOO_VERSION:-18.0}
+    image: odoo:${ODOO_VERSION:-19.0}
     container_name: odoo_app
     depends_on:
       db:

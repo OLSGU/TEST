@@ -63,7 +63,7 @@ docker compose restart odoo
 
 ## Версии
 
-- **Odoo**: `18.0` (Community) — задаётся через `ODOO_VERSION` в `.env`
+- **Odoo**: `19.0` (Community) — задаётся через `ODOO_VERSION` в `.env`
 - **PostgreSQL**: `16`
 
 ## Дальнейшие шаги (по спецификации, §9.4)
