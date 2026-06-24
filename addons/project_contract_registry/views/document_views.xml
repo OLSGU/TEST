@@ -81,7 +81,7 @@
                 <separator/>
                 <filter name="filter_archived" string="В архиве"
                         domain="[('active', '=', False)]"/>
-                <group string="Группировка">
+                <group>
                     <filter name="group_type" string="Тип документа"
                             context="{'group_by': 'doc_type'}"/>
                     <filter name="group_state" string="Статус"
