@@ -65,7 +65,7 @@ class PcrContract(models.Model):
     document_count = fields.Integer(
         string="Документов", compute="_compute_document_count"
     )
-    note = fields.Html(string="Примечание")
+    note = fields.Text(string="Примечание")
 
     @api.depends("document_ids")
     def _compute_document_count(self):
