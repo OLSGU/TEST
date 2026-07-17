@@ -10,6 +10,19 @@
 body.o_app_menu_custom_color {
     .o_main_navbar {
         background-color: var(--app-menu-bar-color) !important;
+
+        // Внутренние блоки навбара (бренд-приложения, секции меню, systray) в
+        // теме Odoo имеют собственный фон — из-за него середина полосы
+        // оставалась цвета темы. Делаем их прозрачными, чтобы сквозь них был
+        // виден единый цвет всей панели.
+        .o_menu_brand,
+        .o_menu_sections,
+        .o_menu_sections > *,
+        .o_menu_systray,
+        .o_menu_systray > *,
+        .o_navbar_apps_menu {
+            background-color: transparent !important;
+        }
     }
 }
 
