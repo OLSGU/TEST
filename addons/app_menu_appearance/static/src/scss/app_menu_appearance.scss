@@ -44,45 +44,82 @@ body.o_app_menu_custom_color {
 }
 
 // --- Режим отображения меню приложений «иконками» (как Enterprise) ----------
-// Community по умолчанию показывает пункты меню приложений выпадающим списком.
-// В режиме «apps» переставляем их в сетку крупных плиток с иконками.
-body.o_app_menu_display_apps {
-    .o_navbar_apps_menu .dropdown-menu,
-    .o_menu_apps .dropdown-menu,
-    .o_menu_sections + .dropdown-menu {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: 8px;
-        min-width: 520px;
-        max-width: 90vw;
-        padding: 12px;
+// Полноэкранный лаунчер приложений (компонент AppLauncher). Отрисовывает
+// приложения крупными плитками с иконками поверх экрана.
+.o_app_launcher_overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 6vh 24px;
+    overflow: auto;
+}
 
-        .dropdown-item,
-        .o_app {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            gap: 6px;
-            min-height: 84px;
-            border-radius: 8px;
-            padding: 12px 8px;
-            white-space: normal;
+.o_app_launcher_panel {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+}
 
-            &:hover,
-            &:focus {
-                background-color: rgba(0, 0, 0, 0.05);
-            }
+.o_app_launcher_close {
+    position: absolute;
+    top: -12px;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-            i,
-            .fa,
-            img,
-            .o_app_icon {
-                font-size: 28px;
-                width: 32px;
-                height: 32px;
-            }
-        }
+.o_app_launcher_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    padding: 32px 0;
+}
+
+.o_app_launcher_tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 12px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+
+    &:hover,
+    &:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
     }
+}
+
+.o_app_launcher_icon {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+}
+
+.o_app_launcher_icon_fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: var(--app-menu-bar-color, #714b67);
+}
+
+.o_app_launcher_name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #212529;
 }
