@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="app_menu_appearance.HomeMenu">
+        <div class="o_app_home_menu">
+            <div class="o_app_home_search">
+                <input type="text" class="form-control"
+                       placeholder="Поиск приложения..."
+                       t-model="state.query"/>
+            </div>
+            <div class="o_app_launcher_grid">
+                <t t-foreach="apps" t-as="app" t-key="app.id">
+                    <button class="o_app_launcher_tile"
+                            t-on-click="() => this.onSelect(app)">
+                        <img t-if="iconSrc(app)"
+                             class="o_app_launcher_icon"
+                             t-att-src="iconSrc(app)"
+                             t-att-alt="app.name"/>
+                        <div t-else=""
+                             class="o_app_launcher_icon o_app_launcher_icon_fallback">
+                            <i class="fa fa-th-large"/>
+                        </div>
+                        <span class="o_app_launcher_name" t-esc="app.name"/>
+                    </button>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="app_menu_appearance.HomeMenuButton">
+        <button class="o_app_home_button btn"
+                t-on-click="onClick" title="Главное меню">
+            <i class="fa fa-th"/>
+        </button>
+    </t>
+
+</templates>

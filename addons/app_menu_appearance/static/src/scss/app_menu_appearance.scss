@@ -44,39 +44,31 @@ body.o_app_menu_custom_color {
 }
 
 // --- Режим отображения меню приложений «иконками» (как Enterprise) ----------
-// Полноэкранный лаунчер приложений (компонент AppLauncher). Отрисовывает
-// приложения крупными плитками с иконками поверх экрана.
-.o_app_launcher_overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1050;
-    background: rgba(0, 0, 0, 0.55);
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 6vh 24px;
+// Главный экран с иконками — клиентское действие HomeMenu (реальная страница
+// в области контента, не оверлей).
+.o_app_home_menu {
+    height: 100%;
     overflow: auto;
+    padding: 32px 24px 48px;
+    background: #f8f9fa;
 }
 
-.o_app_launcher_panel {
-    position: relative;
-    width: 100%;
-    max-width: 960px;
+.o_app_home_search {
+    max-width: 420px;
+    margin: 0 auto 8px;
 }
 
-.o_app_launcher_close {
-    position: absolute;
-    top: -12px;
-    right: 0;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+// В режиме иконок скрываем стандартное списочное меню приложений в навбаре.
+body.o_app_menu_display_apps {
+    .o_main_navbar .o_navbar_apps_menu,
+    .o_main_navbar .o_menu_apps {
+        display: none !important;
+    }
 }
 
 .o_app_launcher_grid {
+    max-width: 960px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 16px;
