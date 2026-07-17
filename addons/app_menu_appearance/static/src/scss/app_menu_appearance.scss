@@ -1,0 +1,75 @@
+// ---------------------------------------------------------------------------
+// Персональные настройки внешнего вида меню приложений.
+// Классы на <body> проставляет app_menu_appearance_service.js по данным из
+// session_info.
+// ---------------------------------------------------------------------------
+
+// --- Цвет верхней полосы меню ---------------------------------------------
+// Переменную --app-menu-bar-color устанавливает сервис при наличии выбранного
+// пользователем цвета.
+body.o_app_menu_custom_color {
+    .o_main_navbar {
+        background-color: var(--app-menu-bar-color) !important;
+    }
+}
+
+// --- Виджет выбора цвета в предпочтениях -----------------------------------
+.o_field_menu_bar_color {
+    .o_menu_bar_color_input {
+        width: 42px;
+        height: 28px;
+        padding: 0;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        background: none;
+        cursor: pointer;
+    }
+
+    .o_menu_bar_color_value {
+        font-family: monospace;
+    }
+}
+
+// --- Режим отображения меню приложений «иконками» (как Enterprise) ----------
+// Community по умолчанию показывает пункты меню приложений выпадающим списком.
+// В режиме «apps» переставляем их в сетку крупных плиток с иконками.
+body.o_app_menu_display_apps {
+    .o_navbar_apps_menu .dropdown-menu,
+    .o_menu_apps .dropdown-menu,
+    .o_menu_sections + .dropdown-menu {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 8px;
+        min-width: 520px;
+        max-width: 90vw;
+        padding: 12px;
+
+        .dropdown-item,
+        .o_app {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 6px;
+            min-height: 84px;
+            border-radius: 8px;
+            padding: 12px 8px;
+            white-space: normal;
+
+            &:hover,
+            &:focus {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+
+            i,
+            .fa,
+            img,
+            .o_app_icon {
+                font-size: 28px;
+                width: 32px;
+                height: 32px;
+            }
+        }
+    }
+}
