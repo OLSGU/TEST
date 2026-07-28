@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Register HairFormula snippets in the website editor's "Structure" group
+        so editors can drag them onto any page.
+    -->
+    <template id="snippets_panel"
+              name="HairFormula — Snippets"
+              inherit_id="website.snippets">
+        <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+            <t t-snippet="theme_hairformula.s_hairformula_hero"
+               t-thumbnail="/theme_hairformula/static/src/img/snippet_thumb_hero.svg"/>
+            <t t-snippet="theme_hairformula.s_hairformula_assistant"
+               t-thumbnail="/theme_hairformula/static/src/img/snippet_thumb_assistant.svg"/>
+        </xpath>
+    </template>
+</odoo>

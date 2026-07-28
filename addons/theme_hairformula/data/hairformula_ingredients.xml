@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--
+        Starter ingredients — give the client something to wire up
+        on day one. Icons left empty (CSS shows styled initial fallback).
+        Client can upload real icon PNGs via the backend form.
+    -->
+    <record id="hf_ingredient_murumuru_butter" model="hairformula.ingredient">
+        <field name="name">Murumuru Butter</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="hf_ingredient_argan_oil" model="hairformula.ingredient">
+        <field name="name">Argan Oil</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="hf_ingredient_keratin" model="hairformula.ingredient">
+        <field name="name">Keratin</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="hf_ingredient_camellia_oil" model="hairformula.ingredient">
+        <field name="name">Camellia Oil</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="hf_ingredient_vitamin_e" model="hairformula.ingredient">
+        <field name="name">Vitamin E</field>
+        <field name="sequence">50</field>
+    </record>
+</odoo>

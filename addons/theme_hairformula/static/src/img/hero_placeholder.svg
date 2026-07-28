@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" preserveAspectRatio="xMidYMid slice">
+    <defs>
+        <linearGradient id="warm" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%"  stop-color="#E5CDB0"/>
+            <stop offset="55%" stop-color="#C9A781"/>
+            <stop offset="100%" stop-color="#A68259"/>
+        </linearGradient>
+        <radialGradient id="light" cx="0.7" cy="0.3" r="0.7">
+            <stop offset="0%"   stop-color="rgba(255,235,200,0.45)"/>
+            <stop offset="100%" stop-color="rgba(255,235,200,0)"/>
+        </radialGradient>
+    </defs>
+
+    <rect width="900" height="1100" fill="url(#warm)"/>
+    <rect width="900" height="1100" fill="url(#light)"/>
+
+    <!-- Subtle hint of organic hair-flow shape -->
+    <path d="M 200 200 Q 400 350 350 600 Q 320 850 500 1000"
+          fill="none" stroke="rgba(60,30,10,0.06)" stroke-width="80" stroke-linecap="round"/>
+    <path d="M 600 150 Q 700 400 650 700 Q 600 900 750 1050"
+          fill="none" stroke="rgba(60,30,10,0.04)" stroke-width="100" stroke-linecap="round"/>
+
+    <!-- Caption for content managers -->
+    <text x="450" y="1060"
+          text-anchor="middle"
+          font-family="Manrope, sans-serif"
+          font-size="11"
+          fill="rgba(60,40,23,0.4)"
+          letter-spacing="3">
+        REPLACE WITH BRAND PHOTO
+    </text>
+</svg>

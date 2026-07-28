@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Adds a "Featured Products" M2M widget to the blog post form so
+        editors can pick the products to show in the article's
+        "Products from the article" block.
+    -->
+    <record id="view_blog_post_form_hairformula" model="ir.ui.view">
+        <field name="name">blog.post.form.hairformula</field>
+        <field name="model">blog.post</field>
+        <field name="inherit_id" ref="website_blog.view_blog_post_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="HairFormula" name="hairformula">
+                    <field name="hairformula_product_ids"
+                           nolabel="1" colspan="2"
+                           widget="many2many_tags"
+                           options="{'no_create': True}"
+                           placeholder="Pick the products that this article references…"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

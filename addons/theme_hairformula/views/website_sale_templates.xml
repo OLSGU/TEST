@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Smart-Filter
+        ============
+        Injects a pill-bar of top-level product categories at the top of
+        the shop catalog page. Clicking a pill navigates to the standard
+        Odoo /shop/category/<id> URL — no custom controller needed, plays
+        nicely with Odoo's pagination, search, and SEO.
+
+        Insertion point: before `#o_wsale_container`, which is the stable
+        outer wrapper of the products area in v19.
+    -->
+    <template id="products_smart_filter"
+              name="HairFormula — Catalog Smart-Filter"
+              inherit_id="website_sale.products">
+        <xpath expr="//div[@id='o_wsale_container']" position="before">
+            <t t-set="hf_categories"
+               t-value="request.env['product.public.category'].sudo().search([('parent_id', '=', False)], order='sequence, name')"/>
+            <t t-set="hf_current_categ_id" t-value="category and category.id or 0"/>
+
+            <div class="container hf-smart-filter-wrap">
+                <nav class="hf-smart-filter" aria-label="Категории">
+                    <span class="hf-smart-filter-label">Smart-Filter</span>
+                    <div class="hf-smart-filter-pills">
+                        <a href="/shop"
+                           t-attf-class="hf-smart-filter-pill #{not hf_current_categ_id and 'hf-smart-filter-pill--active' or ''}">
+                            Все
+                        </a>
+                        <t t-foreach="hf_categories" t-as="cat">
+                            <a t-att-href="'/shop/category/%s' % cat.id"
+                               t-attf-class="hf-smart-filter-pill #{cat.id == hf_current_categ_id and 'hf-smart-filter-pill--active' or ''}">
+                                <t t-out="cat.name"/>
+                            </a>
+                        </t>
+                    </div>
+                </nav>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        "Products from the article" block
+        ==================================
+        Injects a full-width section AFTER the main blog content area.
+        Works in both sidebar-on and sidebar-off layouts.
+
+        Renders only when the post has linked products — silent otherwise.
+
+        Each card is a clickable anchor to the product page. The CTA-styled
+        span inside is visual only (mockup design language) — a future
+        iteration can wire it to add-to-cart via JS with first-variant
+        defaults, but for now linking to the product page is the safest UX
+        (handles variants, stock, etc. on the product page).
+    -->
+    <template id="blog_post_featured_products"
+              name="HairFormula — Blog Post Featured Products"
+              inherit_id="website_blog.blog_post_complete">
+        <xpath expr="//section[@id='o_wblog_post_main']" position="after">
+            <section t-if="blog_post.hairformula_product_ids"
+                     class="hf-blog-featured">
+                <div class="container">
+                    <h2 class="hf-blog-featured-title">Products from the article</h2>
+                    <div class="hf-blog-featured-grid">
+                        <t t-foreach="blog_post.hairformula_product_ids" t-as="prod">
+                            <a t-att-href="prod.website_url"
+                               class="hf-blog-featured-card">
+                                <div class="hf-blog-featured-img">
+                                    <img t-att-src="'/web/image/product.template/%s/image_512' % prod.id"
+                                         t-att-alt="prod.name"
+                                         loading="lazy"/>
+                                </div>
+                                <div class="hf-blog-featured-body">
+                                    <div class="hf-blog-featured-name" t-out="prod.name"/>
+                                    <div class="hf-blog-featured-price">
+                                        <span t-field="prod.list_price"
+                                              t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                    </div>
+                                    <span class="hf-blog-featured-cta">
+                                        <span class="hf-bracket">[</span>В корзину<span class="hf-bracket">]</span>
+                                    </span>
+                                </div>
+                            </a>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </xpath>
+    </template>
+</odoo>

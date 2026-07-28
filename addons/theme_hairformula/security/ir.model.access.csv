@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hairformula_ingredient_public,hairformula.ingredient.public,model_hairformula_ingredient,base.group_public,1,0,0,0
+access_hairformula_ingredient_portal,hairformula.ingredient.portal,model_hairformula_ingredient,base.group_portal,1,0,0,0
+access_hairformula_ingredient_user,hairformula.ingredient.user,model_hairformula_ingredient,base.group_user,1,0,0,0
+access_hairformula_ingredient_manager,hairformula.ingredient.manager,model_hairformula_ingredient,sales_team.group_sale_manager,1,1,1,1

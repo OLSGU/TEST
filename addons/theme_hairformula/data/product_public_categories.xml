@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--
+        Product public categories — for the catalog Smart-Filter
+        and (optionally) for the Assistant Block's category dimension.
+    -->
+    <record id="hf_categ_shampoo" model="product.public.category">
+        <field name="name">Шампуни</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="hf_categ_conditioner" model="product.public.category">
+        <field name="name">Кондиционеры</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="hf_categ_mask" model="product.public.category">
+        <field name="name">Маски</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="hf_categ_oil" model="product.public.category">
+        <field name="name">Масла</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="hf_categ_serum" model="product.public.category">
+        <field name="name">Сыворотки</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="hf_categ_styling" model="product.public.category">
+        <field name="name">Стайлинг</field>
+        <field name="sequence">60</field>
+    </record>
+</odoo>

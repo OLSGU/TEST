@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        HairFormula Hero Snippet
+        ========================
+        Use: in website editor, drag from "Structure" panel onto a page.
+
+        Both the model photo and the product bottle are editable via
+        Odoo's native image editor — content managers can replace them
+        without touching code.
+    -->
+    <template id="s_hairformula_hero" name="HairFormula Hero">
+        <section class="s_hairformula_hero">
+            <div class="hf-hero-content">
+                <h1 class="hf-hero-headline hf-reveal hf-reveal--1">
+                    Ваше время&#160;— <em>роскошь</em>.<br/>
+                    Вашим волосам нужен<br/>
+                    исключительный уход.
+                </h1>
+                <a href="/assistant" class="hf-cta-btn hf-reveal hf-reveal--2">
+                    <span class="hf-bracket">[</span>Подобрать мой ритуал<span class="hf-bracket">]</span>
+                </a>
+            </div>
+
+            <div class="hf-hero-image">
+                <!-- Background portrait: replace via Odoo image editor -->
+                <img src="/theme_hairformula/static/src/img/hero_placeholder.svg"
+                     class="hf-hero-photo"
+                     alt="HairFormula"/>
+
+                <!-- Product bottle overlay: replace with brand product shot -->
+                <div class="hf-product-bottle hf-reveal hf-reveal--3">
+                    <img src="/theme_hairformula/static/src/img/bottle_placeholder.svg"
+                         alt="HairFormula product"/>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>

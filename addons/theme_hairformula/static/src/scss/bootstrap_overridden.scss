@@ -1,0 +1,17 @@
+// =============================================================================
+// HairFormula — Bootstrap Variable Overrides
+// -----------------------------------------------------------------------------
+// Re-assigns Bootstrap's variables to brand values BEFORE the framework
+// rebuilds its component styles.
+// =============================================================================
+
+$primary:        $hf-cta;
+$secondary:      $hf-text-dark;
+$body-bg:        $hf-bg-page;
+$body-color:     $hf-text-dark;
+$font-family-sans-serif: $hf-font-body;
+$headings-font-family:   $hf-font-display;
+$border-radius:  2px;
+$border-radius-sm: 2px;
+$border-radius-lg: 4px;
+$enable-rounded: true;

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        /assistant page
+        ================
+        The main-page hero CTA links to /assistant. This data file creates
+        that page automatically on install, with the Assistant Block embedded.
+        Content managers can edit it via the website editor like any page.
+    -->
+    <template id="assistant_page_template" name="Assistant">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <t t-call="theme_hairformula.s_hairformula_assistant"/>
+            </div>
+        </t>
+    </template>
+
+    <record id="assistant_page" model="website.page">
+        <field name="name">Assistant</field>
+        <field name="url">/assistant</field>
+        <field name="view_id" ref="assistant_page_template"/>
+        <field name="website_published" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Add a "HairFormula" tab to product.template form so editors can
+        fill in the editorial content blocks that drive the product page.
+    -->
+    <record id="view_product_template_form_hairformula" model="ir.ui.view">
+        <field name="name">product.template.form.hairformula</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="HairFormula" name="hairformula">
+                    <group>
+                        <group string="Featured Ingredients" colspan="2">
+                            <field name="hairformula_ingredient_ids"
+                                   nolabel="1" colspan="2"
+                                   widget="many2many_tags"
+                                   options="{'no_create': True}"
+                                   placeholder="Pick 3–6 ingredients to highlight…"/>
+                        </group>
+                    </group>
+                    <group string="Time Deficiency"
+                           help="Editorial block shown right under Add to Cart.">
+                        <field name="time_deficiency_html" nolabel="1" colspan="2"/>
+                    </group>
+                    <group>
+                        <group string="Deep Dive — Ritual">
+                            <field name="deep_dive_ritual_html" nolabel="1" colspan="2"/>
+                        </group>
+                        <group string="Deep Dive — Pure Composition">
+                            <field name="deep_dive_composition_html" nolabel="1" colspan="2"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

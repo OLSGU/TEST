@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        ============================================================
+        Time Deficiency block — under Add to Cart
+        ============================================================
+        Inserts AFTER the standard `_section_cta` div (which contains
+        the Add to Cart wrapper) — natural reading order:
+            Title → Price → Variants → [Add to Cart] → Time Deficiency
+    -->
+    <template id="product_time_deficiency"
+              name="HairFormula — Product Time Deficiency"
+              inherit_id="website_sale.product">
+        <xpath expr="//div[hasclass('o_wsale_product_details_content_section_cta')]" position="after">
+            <div t-if="product.time_deficiency_html"
+                 class="o_wsale_product_details_content_section hf-time-deficiency mb-4">
+                <h3 class="hf-time-deficiency-title">Time Deficiency</h3>
+                <div class="hf-time-deficiency-body"
+                     t-field="product.time_deficiency_html"/>
+            </div>
+        </xpath>
+    </template>
+
+    <!--
+        ============================================================
+        Deep Dive section — full-width below product detail
+        ============================================================
+        Two tabs (Ritual / Pure Composition) using Bootstrap nav-tabs +
+        tab-pane (no custom JS — Bootstrap's tab.js is in Odoo bundle).
+        Below tabs: persistent ingredient signature row.
+
+        Only renders if there's something to show (any of the three
+        fields populated, or any ingredients linked).
+    -->
+    <template id="product_deep_dive"
+              name="HairFormula — Product Deep Dive"
+              inherit_id="website_sale.product">
+        <xpath expr="//section[@id='product_detail']" position="after">
+            <section t-if="product.deep_dive_ritual_html or product.deep_dive_composition_html or product.hairformula_ingredient_ids"
+                     class="hf-deep-dive">
+                <div class="container">
+                    <h2 class="hf-deep-dive-title">Deep Dive</h2>
+
+                    <!-- Tabs -->
+                    <ul class="nav hf-tabs"
+                        id="hf-deep-dive-tabs"
+                        role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link hf-tab active"
+                                    id="hf-tab-ritual"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#hf-pane-ritual"
+                                    type="button" role="tab"
+                                    aria-controls="hf-pane-ritual"
+                                    aria-selected="true">
+                                Ritual
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link hf-tab"
+                                    id="hf-tab-composition"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#hf-pane-composition"
+                                    type="button" role="tab"
+                                    aria-controls="hf-pane-composition"
+                                    aria-selected="false">
+                                Pure Composition
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panels -->
+                    <div class="tab-content hf-tab-content">
+                        <div class="tab-pane fade show active"
+                             id="hf-pane-ritual"
+                             role="tabpanel"
+                             aria-labelledby="hf-tab-ritual">
+                            <div t-if="product.deep_dive_ritual_html"
+                                 class="hf-tab-body"
+                                 t-field="product.deep_dive_ritual_html"/>
+                            <div t-else="" class="hf-tab-empty">
+                                Ritual description not yet added.
+                            </div>
+                        </div>
+                        <div class="tab-pane fade"
+                             id="hf-pane-composition"
+                             role="tabpanel"
+                             aria-labelledby="hf-tab-composition">
+                            <div t-if="product.deep_dive_composition_html"
+                                 class="hf-tab-body"
+                                 t-field="product.deep_dive_composition_html"/>
+                            <div t-else="" class="hf-tab-empty">
+                                Composition description not yet added.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Persistent ingredient signature row (always visible) -->
+                    <div t-if="product.hairformula_ingredient_ids"
+                         class="hf-ingredient-row">
+                        <div t-foreach="product.hairformula_ingredient_ids"
+                             t-as="ing"
+                             class="hf-ingredient">
+                            <div class="hf-ingredient-icon">
+                                <img t-if="ing.icon"
+                                     t-att-src="'/web/image/hairformula.ingredient/%s/icon' % ing.id"
+                                     t-att-alt="ing.name"/>
+                                <span t-else=""
+                                      class="hf-ingredient-initial"
+                                      t-out="ing.name[:1].upper()"/>
+                            </div>
+                            <div class="hf-ingredient-name" t-out="ing.name"/>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </xpath>
+    </template>
+
+</odoo>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        HairFormula Assistant Block snippet
+        ====================================
+        Static markup; interactivity is bound by the publicWidget in
+        static/src/js/assistant_widget.js (registered on `.s_hairformula_assistant`).
+
+        Tag pills inside .hf-tag-cloud are populated dynamically from
+        product.tag at widget startup via /hairformula/assistant/tags.
+    -->
+    <template id="s_hairformula_assistant" name="HairFormula Assistant">
+        <section class="s_hairformula_assistant">
+            <div class="hf-assistant-grid">
+
+                <!-- LEFT: input panel -->
+                <div class="hf-assistant-input-panel">
+                    <div class="hf-search-input-wrap">
+                        <input type="text"
+                               class="hf-search-input"
+                               placeholder="Опишите состояние ваших волос…"
+                               autocomplete="off"/>
+                        <svg class="hf-search-icon" width="18" height="18" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="1.5"
+                             stroke-linecap="round">
+                            <circle cx="11" cy="11" r="7"/>
+                            <line x1="20" y1="20" x2="16.65" y2="16.65"/>
+                        </svg>
+                    </div>
+
+                    <div>
+                        <div class="hf-tag-cloud-label">Cloud of Tags</div>
+                        <div class="hf-tag-cloud" aria-live="polite">
+                            <!-- Tag pills inserted by JS -->
+                            <span class="hf-tag-cloud-loading">Загрузка…</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: preview panel -->
+                <div class="hf-preview-panel">
+                    <div class="hf-preview-title">Preview</div>
+                    <div class="hf-selected-chips">
+                        <span class="hf-empty">Выберите состояние волос</span>
+                    </div>
+                    <div class="hf-preview-description">
+                        Подбор основан на выбранных тегах. Кликните по тегам в облаке слева —
+                        рекомендации обновятся мгновенно.
+                    </div>
+                    <div class="hf-preview-cards">
+                        <!-- Product cards inserted by JS -->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </template>
+</odoo>

@@ -1,0 +1,26 @@
+// =============================================================================
+// HairFormula — Primary SCSS Variables
+// -----------------------------------------------------------------------------
+// Loaded via the `web._assets_primary_variables` bundle BEFORE Bootstrap,
+// so these variables cascade through the entire framework and all themes.
+// =============================================================================
+
+// -------- Brand palette --------
+$hf-bg-page:        #F5EDE3;  // Cream — main page background
+$hf-bg-hero:        #DDC5A8;  // Warm beige — hero block
+$hf-bg-nav:         #FAF4EA;  // Lightest cream — navigation bar
+$hf-cta:            #C97552;  // Terracotta — primary CTA
+$hf-cta-hover:      #B5694F;  // Deeper terracotta — CTA hover
+$hf-text-dark:      #3D2817;  // Coffee brown — body text
+$hf-text-muted:     #7A6A56;  // Warm taupe — muted text
+$hf-border-subtle:  #E8DDCA;  // Cream border
+
+// -------- Typography --------
+$hf-font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+$hf-font-body:    'Manrope', system-ui, sans-serif;
+
+// -------- Map onto Odoo's expected variable names --------
+// (These tell Odoo's framework what fonts/colors to use globally)
+$o-system-fonts:  $hf-font-body;
+$o-headings-font: $hf-font-display;
+$o-theme-font:    $hf-font-body;

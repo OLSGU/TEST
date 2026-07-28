@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         List view
+         ============================================================ -->
+    <record id="view_hairformula_ingredient_list" model="ir.ui.view">
+        <field name="name">hairformula.ingredient.list</field>
+        <field name="model">hairformula.ingredient</field>
+        <field name="arch" type="xml">
+            <list string="Ingredients" multi_edit="1">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="product_count" string="Products"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Form view
+         ============================================================ -->
+    <record id="view_hairformula_ingredient_form" model="ir.ui.view">
+        <field name="name">hairformula.ingredient.form</field>
+        <field name="model">hairformula.ingredient</field>
+        <field name="arch" type="xml">
+            <form string="Ingredient">
+                <sheet>
+                    <field name="active" invisible="1"/>
+                    <field name="icon" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Murumuru butter"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="sequence"/>
+                        <field name="product_count" string="Used in Products"/>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" nolabel="1"
+                                   placeholder="Optional longer description of the ingredient…"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Action + Menu
+         ============================================================ -->
+    <record id="action_hairformula_ingredient" model="ir.actions.act_window">
+        <field name="name">HairFormula Ingredients</field>
+        <field name="res_model">hairformula.ingredient</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first featured ingredient
+            </p>
+            <p>
+                Ingredients appear as an icon row on the product page,
+                under the Deep Dive section. Add them to products via
+                the <b>HairFormula</b> tab of the product form.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_hairformula_ingredient"
+              name="HairFormula Ingredients"
+              parent="sale.product_menu_catalog"
+              action="action_hairformula_ingredient"
+              sequence="50"/>
+
+</odoo>

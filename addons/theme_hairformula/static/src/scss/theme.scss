@@ -1,0 +1,911 @@
+// =============================================================================
+// HairFormula — Theme Styles
+// -----------------------------------------------------------------------------
+// All custom styles are namespaced with `.hf-*` to avoid colliding with
+// Odoo / Bootstrap classes.
+// =============================================================================
+
+// -------- Global paper grain overlay --------
+// Fixed overlay over the whole document for tactile warmth.
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 0 0.1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 100;
+    mix-blend-mode: multiply;
+}
+
+// -------- Logo / brand mark (used by the custom header) --------
+.hf-logo {
+    font-family: $hf-font-display;
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: 0.34em;
+    color: $hf-text-dark;
+    text-transform: uppercase;
+    text-align: center;
+    padding-left: 0.34em;  // optical centering correction for tracked text
+
+    @media (max-width: 768px) {
+        font-size: 16px;
+        letter-spacing: 0.28em;
+    }
+}
+
+// -------- HERO SNIPPET --------
+.s_hairformula_hero {
+    margin: 24px;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    min-height: 540px;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    align-items: stretch;
+    background: $hf-bg-hero;
+    box-shadow: 0 1px 0 rgba(60, 40, 23, 0.04);
+    z-index: 5;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        margin: 14px;
+        min-height: auto;
+    }
+}
+
+.hf-hero-content {
+    padding: 72px 64px;
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(
+        105deg,
+        $hf-bg-hero 60%,
+        rgba(221, 197, 168, 0.85) 80%,
+        rgba(221, 197, 168, 0) 100%
+    );
+
+    @media (max-width: 768px) {
+        padding: 40px 28px 36px;
+        order: 2;
+        background: $hf-bg-hero;
+    }
+}
+
+.hf-hero-headline {
+    font-family: $hf-font-display;
+    font-weight: 400;
+    font-size: clamp(30px, 3.4vw, 46px);
+    line-height: 1.12;
+    color: $hf-text-dark;
+    margin-bottom: 44px;
+    max-width: 480px;
+    letter-spacing: -0.012em;
+
+    em {
+        font-style: italic;
+        font-weight: 400;
+    }
+
+    @media (max-width: 768px) {
+        margin-bottom: 32px;
+    }
+}
+
+.hf-cta-btn {
+    background: $hf-cta;
+    color: #FAF4EA;
+    border: none;
+    padding: 17px 30px;
+    font-family: $hf-font-body;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 2px;
+    align-self: flex-start;
+    text-decoration: none;
+    display: inline-block;
+
+    &:hover {
+        background: $hf-cta-hover;
+        color: #FAF4EA;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(181, 105, 79, 0.28);
+        text-decoration: none;
+    }
+
+    .hf-bracket {
+        opacity: 0.65;
+        margin: 0 10px;
+        font-weight: 300;
+    }
+
+    @media (max-width: 768px) {
+        padding: 15px 24px;
+        font-size: 11.5px;
+    }
+}
+
+.hf-hero-image {
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+    background: linear-gradient(135deg, #D9BC97 0%, #BC9870 100%);
+
+    // Warm tone overlay — blends the photo with the brand palette
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(95deg, rgba(221, 197, 168, 0.55) 0%, rgba(221, 197, 168, 0) 38%),
+            radial-gradient(ellipse 70% 90% at 80% 30%, rgba(255, 235, 200, 0.22) 0%, transparent 60%);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+        min-height: 380px;
+        order: 1;
+    }
+}
+
+.hf-hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    filter: saturate(0.92) sepia(0.08) brightness(1.02);
+}
+
+// -------- Product bottle overlay --------
+.hf-product-bottle {
+    position: absolute;
+    left: 6%;
+    bottom: 12%;
+    width: 30%;
+    max-width: 175px;
+    min-width: 110px;
+    filter: drop-shadow(0 24px 48px rgba(40, 20, 5, 0.45));
+    animation: hf-float 7s ease-in-out infinite;
+    z-index: 2;
+
+    img, svg {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    @media (max-width: 768px) {
+        left: 6%;
+        bottom: 8%;
+    }
+}
+
+@keyframes hf-float {
+    0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+    50%      { transform: translateY(-12px) rotate(1deg); }
+}
+
+// -------- Entrance animations --------
+.hf-reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: hf-fade-up 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+    &--1 { animation-delay: 0.15s; }
+    &--2 { animation-delay: 0.4s; }
+    &--3 { animation-delay: 0.6s; }
+}
+
+.hf-hero-photo {
+    opacity: 0;
+    animation: hf-fade-in 1.2s ease-out 0.05s forwards;
+}
+
+@keyframes hf-fade-up {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hf-fade-in {
+    to { opacity: 1; }
+}
+
+// =============================================================================
+// ASSISTANT BLOCK
+// =============================================================================
+
+.s_hairformula_assistant {
+    background: #EFE4D4;        // a touch darker than $hf-bg-page for contrast
+    padding: 56px 32px;
+    margin: 24px;
+    border-radius: 6px;
+
+    @media (max-width: 768px) {
+        padding: 36px 20px;
+        margin: 14px;
+    }
+}
+
+.hf-assistant-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}
+
+.hf-assistant-input-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+// -------- Search input --------
+.hf-search-input-wrap {
+    position: relative;
+
+    input.hf-search-input {
+        width: 100%;
+        background: $hf-bg-nav;
+        border: 1px solid $hf-border-subtle;
+        padding: 14px 44px 14px 18px;
+        border-radius: 999px;
+        font-family: $hf-font-body;
+        font-size: 14px;
+        color: $hf-text-dark;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+        &:focus {
+            outline: none;
+            border-color: $hf-cta;
+            box-shadow: 0 0 0 3px rgba(201, 117, 82, 0.12);
+        }
+
+        &::placeholder {
+            color: $hf-text-muted;
+            font-style: italic;
+        }
+    }
+
+    .hf-search-icon {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $hf-text-muted;
+        pointer-events: none;
+    }
+}
+
+// -------- Tag cloud --------
+.hf-tag-cloud-label {
+    font-family: $hf-font-display;
+    font-size: 20px;
+    color: $hf-text-dark;
+    margin-bottom: 16px;
+    letter-spacing: 0.01em;
+}
+
+.hf-tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 40px;
+
+    .hf-tag-cloud-loading,
+    .hf-empty {
+        color: $hf-text-muted;
+        font-size: 13px;
+        font-style: italic;
+    }
+}
+
+.hf-tag-pill {
+    background: $hf-bg-nav;
+    border: 1px solid $hf-border-subtle;
+    color: $hf-text-dark;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-family: $hf-font-body;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1.3;
+
+    &:hover {
+        border-color: $hf-cta;
+        color: $hf-cta;
+    }
+
+    &.hf-tag-pill--active {
+        border-color: $hf-cta;
+        background: rgba(201, 117, 82, 0.1);
+        color: $hf-cta;
+        font-weight: 500;
+    }
+}
+
+// -------- Preview panel --------
+.hf-preview-panel {
+    background: $hf-bg-nav;
+    border-radius: 6px;
+    padding: 24px;
+    border: 1px solid $hf-border-subtle;
+}
+
+.hf-preview-title {
+    font-family: $hf-font-display;
+    font-size: 20px;
+    color: $hf-text-dark;
+    margin-bottom: 12px;
+}
+
+.hf-selected-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+    min-height: 32px;
+    align-items: center;
+}
+
+.hf-chip {
+    background: rgba(201, 117, 82, 0.08);
+    border: 1px solid $hf-cta;
+    color: $hf-cta;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.hf-preview-description {
+    font-size: 13px;
+    color: $hf-text-muted;
+    margin-bottom: 18px;
+    line-height: 1.55;
+}
+
+// -------- Product cards in preview --------
+.hf-preview-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    transition: opacity 0.2s ease;
+
+    &.hf-loading {
+        opacity: 0.45;
+    }
+}
+
+.hf-product-card {
+    background: white;
+    border-radius: 4px;
+    padding: 12px;
+    text-decoration: none;
+    color: $hf-text-dark;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: block;
+
+    &:hover {
+        transform: translateY(-2px);
+        text-decoration: none;
+        color: $hf-text-dark;
+        box-shadow: 0 8px 20px rgba(60, 30, 10, 0.1);
+    }
+
+    .hf-product-image {
+        aspect-ratio: 1;
+        background: $hf-bg-page;
+        border-radius: 2px;
+        overflow: hidden;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+    }
+
+    .hf-product-name {
+        font-size: 12.5px;
+        font-weight: 500;
+        line-height: 1.3;
+        margin-bottom: 4px;
+        // Clamp to 2 lines so cards align
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .hf-product-price {
+        font-size: 12px;
+        color: $hf-text-muted;
+        font-weight: 500;
+    }
+}
+
+.hf-empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 32px 16px;
+    color: $hf-text-muted;
+    font-size: 13px;
+    font-style: italic;
+}
+
+// =============================================================================
+// CATALOG — Smart-Filter + product cards
+// =============================================================================
+
+// -------- Smart-Filter pill bar --------
+.hf-smart-filter-wrap {
+    padding: 32px 0 8px;
+
+    @media (max-width: 768px) {
+        padding: 20px 0 4px;
+    }
+}
+
+.hf-smart-filter {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.hf-smart-filter-label {
+    font-family: $hf-font-display;
+    font-size: 22px;
+    color: $hf-text-dark;
+    margin-right: 8px;
+    letter-spacing: 0.01em;
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+        width: 100%;
+        margin-bottom: 4px;
+    }
+}
+
+.hf-smart-filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.hf-smart-filter-pill {
+    background: $hf-bg-nav;
+    border: 1px solid $hf-border-subtle;
+    color: $hf-text-dark;
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-family: $hf-font-body;
+    font-size: 13px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    &:hover {
+        border-color: $hf-cta;
+        color: $hf-cta;
+        text-decoration: none;
+    }
+
+    &--active {
+        background: rgba(201, 117, 82, 0.1);
+        border-color: $hf-cta;
+        color: $hf-cta;
+        font-weight: 500;
+    }
+}
+
+// -------- Catalog page background + container --------
+.o_wsale_products_page {
+    background: $hf-bg-page;
+
+    .oe_website_sale {
+        background: transparent;
+    }
+}
+
+// -------- Product cards (Odoo's existing .oe_product markup) --------
+// We restyle in place rather than override the template — survives Odoo updates.
+.oe_product {
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(60, 30, 10, 0.08);
+    }
+
+    // Image area
+    .oe_product_image,
+    .o_wsale_product_grid_wrapper,
+    .o_wsale_product_information_image {
+        background: $hf-bg-page;
+    }
+
+    // Title — Odoo renders product name via h6 or similar small heading
+    h5, h6, .o_wsale_products_item_title {
+        font-family: $hf-font-display;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1.25;
+        color: $hf-text-dark;
+        letter-spacing: -0.005em;
+    }
+
+    // Price area
+    .product_price,
+    .oe_currency_value,
+    .o_wsale_product_information_price {
+        color: $hf-text-muted;
+        font-weight: 500;
+        font-family: $hf-font-body;
+    }
+
+    // Compare / wishlist secondary buttons — subtle
+    .o_wsale_product_btn,
+    .o_add_wishlist {
+        color: $hf-text-muted;
+
+        &:hover {
+            color: $hf-cta;
+        }
+    }
+}
+
+// =============================================================================
+// PRODUCT PAGE — Time Deficiency + Deep Dive
+// =============================================================================
+
+// -------- Time Deficiency block --------
+.hf-time-deficiency {
+    background: $hf-bg-nav;
+    border-left: 3px solid $hf-cta;
+    padding: 20px 24px;
+    border-radius: 0 4px 4px 0;
+}
+
+.hf-time-deficiency-title {
+    font-family: $hf-font-display;
+    font-size: 20px;
+    color: $hf-text-dark;
+    margin: 0 0 10px;
+    letter-spacing: 0.005em;
+}
+
+.hf-time-deficiency-body {
+    font-family: $hf-font-body;
+    font-size: 14px;
+    color: $hf-text-dark;
+    line-height: 1.6;
+
+    ul, ol { padding-left: 18px; margin: 0; }
+    li { margin-bottom: 6px; }
+    p:last-child { margin-bottom: 0; }
+}
+
+// -------- Deep Dive section --------
+.hf-deep-dive {
+    background: $hf-bg-page;
+    padding: 64px 0 80px;
+    margin: 32px 0 0;
+    border-top: 1px solid $hf-border-subtle;
+
+    @media (max-width: 768px) {
+        padding: 40px 0 56px;
+    }
+}
+
+.hf-deep-dive-title {
+    font-family: $hf-font-display;
+    font-size: clamp(28px, 3vw, 38px);
+    font-weight: 400;
+    color: $hf-text-dark;
+    text-align: center;
+    margin: 0 0 40px;
+    letter-spacing: -0.01em;
+}
+
+// -------- Tabs --------
+.hf-tabs {
+    border-bottom: 1px solid $hf-border-subtle;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 36px;
+    list-style: none;
+    padding: 0;
+
+    .nav-item { margin: 0; }
+}
+
+.hf-tab {
+    background: transparent;
+    border: none;
+    color: $hf-text-muted;
+    font-family: $hf-font-display;
+    font-size: 18px;
+    padding: 12px 24px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s ease;
+    letter-spacing: 0.01em;
+
+    &:hover {
+        color: $hf-text-dark;
+    }
+
+    &.active {
+        color: $hf-text-dark;
+        font-weight: 500;
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 24px;
+            right: 24px;
+            bottom: -1px;
+            height: 2px;
+            background: $hf-cta;
+        }
+    }
+}
+
+.hf-tab-content {
+    max-width: 720px;
+    margin: 0 auto 48px;
+}
+
+.hf-tab-body {
+    font-family: $hf-font-body;
+    font-size: 15px;
+    line-height: 1.7;
+    color: $hf-text-dark;
+    text-align: center;
+
+    p { margin-bottom: 16px; }
+    p:last-child { margin-bottom: 0; }
+}
+
+.hf-tab-empty {
+    color: $hf-text-muted;
+    font-style: italic;
+    text-align: center;
+    padding: 20px 0;
+}
+
+// -------- Ingredient signature row (always visible below tabs) --------
+.hf-ingredient-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 36px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 16px;
+
+    @media (max-width: 768px) {
+        gap: 24px;
+    }
+}
+
+.hf-ingredient {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 0 0 auto;
+    max-width: 120px;
+}
+
+.hf-ingredient-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: $hf-bg-nav;
+    border: 1px solid $hf-border-subtle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    img {
+        width: 60%;
+        height: 60%;
+        object-fit: contain;
+    }
+
+    .hf-ingredient-initial {
+        font-family: $hf-font-display;
+        font-size: 26px;
+        color: $hf-cta;
+        font-weight: 500;
+        line-height: 1;
+    }
+
+    .hf-ingredient:hover & {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(60, 30, 10, 0.08);
+    }
+}
+
+.hf-ingredient-name {
+    font-family: $hf-font-body;
+    font-size: 12.5px;
+    color: $hf-text-dark;
+    line-height: 1.3;
+    letter-spacing: 0.005em;
+}
+
+// =============================================================================
+// EXPERT PAGE — Blog post + linked products
+// =============================================================================
+
+.hf-blog-featured {
+    background: $hf-bg-page;
+    padding: 64px 0 80px;
+    margin-top: 32px;
+    border-top: 1px solid $hf-border-subtle;
+
+    @media (max-width: 768px) {
+        padding: 40px 0 56px;
+    }
+}
+
+.hf-blog-featured-title {
+    font-family: $hf-font-display;
+    font-size: clamp(28px, 3vw, 38px);
+    font-weight: 400;
+    color: $hf-text-dark;
+    text-align: center;
+    margin: 0 0 40px;
+    letter-spacing: -0.01em;
+}
+
+.hf-blog-featured-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    @media (max-width: 992px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 576px) {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+.hf-blog-featured-card {
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    color: $hf-text-dark;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(60, 30, 10, 0.08);
+        text-decoration: none;
+        color: $hf-text-dark;
+
+        .hf-blog-featured-cta {
+            background: $hf-cta-hover;
+        }
+    }
+}
+
+.hf-blog-featured-img {
+    aspect-ratio: 1;
+    background: $hf-bg-page;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    img {
+        max-width: 80%;
+        max-height: 80%;
+        object-fit: contain;
+    }
+}
+
+.hf-blog-featured-body {
+    padding: 16px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.hf-blog-featured-name {
+    font-family: $hf-font-display;
+    font-size: 17px;
+    line-height: 1.25;
+    color: $hf-text-dark;
+    font-weight: 500;
+    // Clamp to 2 lines so cards align
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hf-blog-featured-price {
+    font-family: $hf-font-body;
+    font-size: 14px;
+    color: $hf-text-muted;
+    font-weight: 500;
+}
+
+.hf-blog-featured-cta {
+    background: $hf-cta;
+    color: #FAF4EA;
+    padding: 10px 16px;
+    border-radius: 2px;
+    font-family: $hf-font-body;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: auto;
+    transition: background 0.2s ease;
+    display: inline-block;
+
+    .hf-bracket {
+        opacity: 0.65;
+        margin: 0 6px;
+        font-weight: 300;
+    }
+}
+
+// -------- Optional: lift the blog post body typography toward editorial --------
+// Light touch — namespaced to the post detail page only.
+.o_wblog_post_page_cover {
+    .o_wblog_post_name {
+        font-family: $hf-font-display;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+    }
+
+    .o_wblog_post_subtitle {
+        font-family: $hf-font-display;
+        font-style: italic;
+        font-weight: 400;
+    }
+}

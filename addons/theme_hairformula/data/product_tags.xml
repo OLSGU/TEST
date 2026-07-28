@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--
+        Hair condition tags — match the Cloud of Tags in the design mockup.
+        noupdate="1" means re-installs won't overwrite changes made by the
+        client (e.g. if they renamed or added tags via the backend).
+    -->
+    <record id="hf_tag_dry" model="product.tag">
+        <field name="name">Сухие</field>
+    </record>
+    <record id="hf_tag_damaged" model="product.tag">
+        <field name="name">Поврежденные</field>
+    </record>
+    <record id="hf_tag_wavy" model="product.tag">
+        <field name="name">Волнистые</field>
+    </record>
+    <record id="hf_tag_shine" model="product.tag">
+        <field name="name">Блеск</field>
+    </record>
+    <record id="hf_tag_protection" model="product.tag">
+        <field name="name">Защита</field>
+    </record>
+    <record id="hf_tag_smoothness" model="product.tag">
+        <field name="name">Послушность</field>
+    </record>
+</odoo>
