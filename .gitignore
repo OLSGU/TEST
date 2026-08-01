@@ -1,5 +1,8 @@
 # Local environment
 .env
+env/
+odoo_data/
+postgresql/
 
 # Python
 __pycache__/

@@ -1,44 +1,56 @@
-# Odoo Community + PostgreSQL — local development environment
-# See README.md for usage. Configuration is driven by the .env file
-# (copy .env.example to .env first).
-
 services:
-  db:
+  odoo_test_db:
     image: postgres:16
-    container_name: odoo_db
+    user: root
+    
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: ${DB_USER:-odoo}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-odoo}
-      # Odoo manages its own databases; keep the default `postgres` db here.
-      PGDATA: /var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+    restart: always
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - ./postgresql:/var/lib/postgresql
+    networks:
+      - odoo_test_db
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "${DB_USER:-odoo}"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    restart: unless-stopped
+          test: ["CMD-SHELL", "pg_isready -U odoo"]
+          interval: 5s
+          timeout: 5s
+          retries: 10
 
-  odoo:
-    image: odoo:${ODOO_VERSION:-19.0}
-    container_name: odoo_app
+  odoo_test:
+    image: odoo:19
+    user: root
     depends_on:
-      db:
-        condition: service_healthy
-    ports:
-      - "${ODOO_PORT:-8069}:8069"
+      odoo_test_db:
+        condition: service_healthy 
+      
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.odoo_test.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.odoo_test.entrypoints=websecure"
+      - "traefik.http.routers.odoo_test.tls.certresolver=le"
+      - "traefik.http.services.odoo_test.loadbalancer.server.port=8069"
+      - "traefik.docker.network=traefik"
+    tty: true
     environment:
-      HOST: db
-      USER: ${DB_USER:-odoo}
-      PASSWORD: ${DB_PASSWORD:-odoo}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
-      - odoo-data:/var/lib/odoo
-      - ./config/odoo.conf:/etc/odoo/odoo.conf:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - ./addons:/mnt/extra-addons
-    restart: unless-stopped
+      - ./etc:/etc/odoo
+      - ./odoo-data:/var/lib/odoo
+    restart: always
+    networks:
+      - odoo_test_db
+      - traefik
 
-volumes:
-  db-data:
-  odoo-data:
+
+networks:
+  odoo_test_db:
+    driver: bridge
+  traefik:
+    external: true
