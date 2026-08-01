@@ -59,7 +59,7 @@
         <field name="name">Настройки хранилища</field>
         <field name="res_model">res.config.settings</field>
         <field name="view_mode">form</field>
-        <field name="target">inline</field>
+        <field name="target">current</field>
         <field name="view_id" ref="view_pcr_storage_config_settings"/>
         <field name="context">{'module': 'project_contract_registry'}</field>
     </record>
