@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ══ List ═══════════════════════════════════════════════════ -->
+        <record id="view_custom_account_group_list" model="ir.ui.view">
+            <field name="name">custom.account.group.list</field>
+            <field name="model">custom.account.group</field>
+            <field name="arch" type="xml">
+                <list string="Account Groups" decoration-muted="not active">
+                    <field name="complete_code" string="Code" optional="show"/>
+                    <field name="complete_name" string="Group Name"/>
+                    <field name="account_type" string="Type" optional="show"/>
+                    <field name="level" string="Level" optional="hide"/>
+                    <field name="account_count" string="Accounts"/>
+                    <field name="active" column_invisible="True"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ══ Form ═══════════════════════════════════════════════════ -->
+        <record id="view_custom_account_group_form" model="ir.ui.view">
+            <field name="name">custom.account.group.form</field>
+            <field name="model">custom.account.group</field>
+            <field name="arch" type="xml">
+                <form string="Account Group">
+                    <header>
+                        <button name="action_view_accounts"
+                                string="View Accounts"
+                                type="object"
+                                class="btn-secondary"
+                                invisible="account_count == 0"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object"
+                                    name="action_view_accounts"
+                                    icon="fa-book">
+                                <field name="account_count" widget="statinfo" string="Accounts"/>
+                            </button>
+                        </div>
+                        <widget name="web_ribbon" title="Archived"
+                                bg_color="text-bg-danger"
+                                invisible="active"/>
+                        <div class="oe_title">
+                            <label for="code" string="Code"/>
+                            <h1>
+                                <field name="code" class="oe_inline" placeholder="e.g. 51"/>
+                                &amp;nbsp;
+                                <field name="name" placeholder="Group Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Hierarchy">
+                                <field name="parent_id"/>
+                                <field name="complete_code" readonly="1"/>
+                                <field name="complete_name" readonly="1"/>
+                                <field name="level" readonly="1"/>
+                            </group>
+                            <group string="Classification">
+                                <field name="account_type"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Child Groups" name="children">
+                                <field name="child_ids" readonly="1">
+                                    <list>
+                                        <field name="complete_code" string="Code"/>
+                                        <field name="name"/>
+                                        <field name="account_type"/>
+                                        <field name="account_count"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Notes" name="notes">
+                                <field name="note" placeholder="Internal notes…"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ══ Search ════════════════════════════════════════════════ -->
+        <record id="view_custom_account_group_search" model="ir.ui.view">
+            <field name="name">custom.account.group.search</field>
+            <field name="model">custom.account.group</field>
+            <field name="arch" type="xml">
+                <search string="Search Groups">
+                    <field name="name" string="Name/Code" filter_domain="['|',('name','ilike',self),('code','ilike',self)]"/>
+                    <field name="parent_id"/>
+                    <filter name="filter_active" string="Active" domain="[('active','=',True)]"/>
+                    <filter name="filter_archived" string="Archived" domain="[('active','=',False)]"/>
+                    <group>
+                        <filter name="group_by_type" string="Account Type" context="{'group_by':'account_type'}"/>
+                        <filter name="group_by_parent" string="Parent Group" context="{'group_by':'parent_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ══ Action ════════════════════════════════════════════════ -->
+        <record id="action_custom_account_group" model="ir.actions.act_window">
+            <field name="name">Account Groups</field>
+            <field name="res_model">custom.account.group</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_custom_account_group_search"/>
+            <field name="context">{'search_default_filter_active': 1}</field>
+        </record>
+
+    </data>
+</odoo>

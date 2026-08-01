@@ -1,5 +1,0 @@
-# Custom Odoo modules live here. This directory is mounted into the Odoo
-# container at /mnt/extra-addons (see docker-compose.yml addons_path).
-#
-# The pilot module (Project -> Contract -> Document) will be scaffolded here
-# in the next step. See README.md and the project specification.

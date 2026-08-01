@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <data>
+
+        <!-- ══ Section I — Non-Current Assets ════════════════════════ -->
+        <record id="group_01" model="custom.account.group">
+            <field name="code">01</field>
+            <field name="name">Fixed Assets</field>
+            <field name="account_type">asset_non_current</field>
+        </record>
+        <record id="group_02" model="custom.account.group">
+            <field name="code">02</field>
+            <field name="name">Accumulated Depreciation</field>
+            <field name="account_type">asset_non_current</field>
+        </record>
+        <record id="group_04" model="custom.account.group">
+            <field name="code">04</field>
+            <field name="name">Intangible Assets</field>
+            <field name="account_type">asset_non_current</field>
+        </record>
+        <record id="group_05" model="custom.account.group">
+            <field name="code">05</field>
+            <field name="name">Amortization of Intangibles</field>
+            <field name="account_type">asset_non_current</field>
+        </record>
+
+        <!-- ══ Section II — Current Assets ═══════════════════════════ -->
+        <record id="group_10" model="custom.account.group">
+            <field name="code">10</field>
+            <field name="name">Materials &amp; Supplies</field>
+            <field name="account_type">asset_current</field>
+        </record>
+        <record id="group_41" model="custom.account.group">
+            <field name="code">41</field>
+            <field name="name">Goods</field>
+            <field name="account_type">asset_current</field>
+        </record>
+        <record id="group_50" model="custom.account.group">
+            <field name="code">50</field>
+            <field name="name">Cash</field>
+            <field name="account_type">asset_cash</field>
+        </record>
+        <record id="group_51" model="custom.account.group">
+            <field name="code">51</field>
+            <field name="name">Bank Accounts</field>
+            <field name="account_type">asset_cash</field>
+        </record>
+
+        <!-- ══ Section III — Capital &amp; Reserves ═══════════════════ -->
+        <record id="group_80" model="custom.account.group">
+            <field name="code">80</field>
+            <field name="name">Authorized Capital</field>
+            <field name="account_type">equity</field>
+        </record>
+        <record id="group_82" model="custom.account.group">
+            <field name="code">82</field>
+            <field name="name">Reserve Capital</field>
+            <field name="account_type">equity</field>
+        </record>
+        <record id="group_83" model="custom.account.group">
+            <field name="code">83</field>
+            <field name="name">Additional Paid-in Capital</field>
+            <field name="account_type">equity</field>
+        </record>
+        <record id="group_84" model="custom.account.group">
+            <field name="code">84</field>
+            <field name="name">Retained Earnings</field>
+            <field name="account_type">equity_unaffected</field>
+        </record>
+
+        <!-- ══ Section IV — Long-term Liabilities ════════════════════ -->
+        <record id="group_66" model="custom.account.group">
+            <field name="code">66</field>
+            <field name="name">Short-term Loans &amp; Credits</field>
+            <field name="account_type">liability_current</field>
+        </record>
+        <record id="group_67" model="custom.account.group">
+            <field name="code">67</field>
+            <field name="name">Long-term Loans &amp; Credits</field>
+            <field name="account_type">liability_non_current</field>
+        </record>
+
+        <!-- ══ Section V — Current Liabilities ═══════════════════════ -->
+        <record id="group_60" model="custom.account.group">
+            <field name="code">60</field>
+            <field name="name">Accounts Payable (Suppliers)</field>
+            <field name="account_type">liability_payable</field>
+        </record>
+        <record id="group_62" model="custom.account.group">
+            <field name="code">62</field>
+            <field name="name">Accounts Receivable (Customers)</field>
+            <field name="account_type">asset_receivable</field>
+        </record>
+        <record id="group_68" model="custom.account.group">
+            <field name="code">68</field>
+            <field name="name">Taxes Payable</field>
+            <field name="account_type">liability_current</field>
+        </record>
+        <record id="group_69" model="custom.account.group">
+            <field name="code">69</field>
+            <field name="name">Social Insurance Payable</field>
+            <field name="account_type">liability_current</field>
+        </record>
+        <record id="group_70" model="custom.account.group">
+            <field name="code">70</field>
+            <field name="name">Payroll Payable</field>
+            <field name="account_type">liability_current</field>
+        </record>
+
+        <!-- ══ Section VI — Revenue ═══════════════════════════════════ -->
+        <record id="group_90" model="custom.account.group">
+            <field name="code">90</field>
+            <field name="name">Revenue from Sales</field>
+            <field name="account_type">income</field>
+        </record>
+        <record id="group_91" model="custom.account.group">
+            <field name="code">91</field>
+            <field name="name">Other Income &amp; Expenses</field>
+            <field name="account_type">income_other</field>
+        </record>
+
+        <!-- ══ Section VII — Expenses ═════════════════════════════════ -->
+        <record id="group_20" model="custom.account.group">
+            <field name="code">20</field>
+            <field name="name">Main Production</field>
+            <field name="account_type">expense_direct_cost</field>
+        </record>
+        <record id="group_25" model="custom.account.group">
+            <field name="code">25</field>
+            <field name="name">General Production Overhead</field>
+            <field name="account_type">expense</field>
+        </record>
+        <record id="group_26" model="custom.account.group">
+            <field name="code">26</field>
+            <field name="name">General &amp; Administrative Expenses</field>
+            <field name="account_type">expense</field>
+        </record>
+        <record id="group_44" model="custom.account.group">
+            <field name="code">44</field>
+            <field name="name">Selling Expenses</field>
+            <field name="account_type">expense</field>
+        </record>
+
+        <!-- ══ Off-balance ════════════════════════════════════════════ -->
+        <record id="group_001" model="custom.account.group">
+            <field name="code">001</field>
+            <field name="name">Leased Fixed Assets (Off-Balance)</field>
+            <field name="account_type">off_balance</field>
+        </record>
+
+    </data>
+</odoo>

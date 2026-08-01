@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <data>
+        <!-- Account types are defined as Selection field values in the model.
+             This file is a placeholder for any additional type configuration. -->
+    </data>
+</odoo>

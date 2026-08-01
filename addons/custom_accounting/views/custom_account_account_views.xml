@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ══ List ═══════════════════════════════════════════════════ -->
+        <record id="view_custom_account_account_list" model="ir.ui.view">
+            <field name="name">custom.account.account.list</field>
+            <field name="model">custom.account.account</field>
+            <field name="arch" type="xml">
+                <list string="Chart of Accounts"
+                      decoration-muted="deprecated"
+                      decoration-info="account_type in ['asset_cash','asset_receivable']"
+                      default_order="code">
+                    <field name="code" string="Code" optional="show"/>
+                    <field name="name" string="Account Name"/>
+                    <field name="group_id" string="Group" optional="show"/>
+                    <field name="account_type" string="Type" optional="show"/>
+                    <field name="internal_group" string="Internal Group" optional="hide"/>
+                    <field name="normal_balance" string="Normal Balance" optional="show"/>
+                    <field name="currency_id" string="Currency" optional="hide"/>
+                    <field name="reconcile" string="Reconcile" optional="show" widget="boolean_toggle"/>
+                    <field name="deprecated" string="Deprecated" optional="hide" widget="boolean_toggle"/>
+                    <field name="journal_line_count" string="Lines" optional="show"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ══ Form ═══════════════════════════════════════════════════ -->
+        <record id="view_custom_account_account_form" model="ir.ui.view">
+            <field name="name">custom.account.account.form</field>
+            <field name="model">custom.account.account</field>
+            <field name="arch" type="xml">
+                <form string="Account">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object"
+                                    name="action_view_journal_lines"
+                                    icon="fa-list-ul"
+                                    invisible="journal_line_count == 0">
+                                <field name="journal_line_count" widget="statinfo" string="Journal Lines"/>
+                            </button>
+                        </div>
+                        <widget name="web_ribbon" title="Deprecated"
+                                bg_color="text-bg-warning"
+                                invisible="not deprecated"/>
+                        <div class="oe_title">
+                            <label for="code"/>
+                            <h1>
+                                <field name="code" class="oe_inline" placeholder="Account Code"/>
+                                &amp;nbsp;
+                                <field name="name" placeholder="Account Name"/>
+                            </h1>
+                            <field name="short_name" placeholder="Short Name (optional)"/>
+                        </div>
+                        <group>
+                            <group string="Classification">
+                                <field name="account_type"/>
+                                <field name="internal_group" readonly="1"/>
+                                <field name="normal_balance"/>
+                                <field name="group_id"/>
+                            </group>
+                            <group string="Settings">
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="currency_id"/>
+                                <field name="reconcile"/>
+                                <field name="deprecated"/>
+                                <field name="odoo_account_id" string="Linked Odoo Account"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Tags &amp; Analytic" name="tags">
+                                <group>
+                                    <field name="tag_ids" widget="many2many_tags"/>
+                                </group>
+                            </page>
+                            <page string="Notes" name="notes">
+                                <field name="note" placeholder="Internal notes about this account…"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ══ Search ════════════════════════════════════════════════ -->
+        <record id="view_custom_account_account_search" model="ir.ui.view">
+            <field name="name">custom.account.account.search</field>
+            <field name="model">custom.account.account</field>
+            <field name="arch" type="xml">
+                <search string="Search Accounts">
+                    <field name="display_name" string="Code / Name"
+                           filter_domain="['|',('code','ilike',self),('name','ilike',self)]"/>
+                    <field name="group_id"/>
+                    <field name="account_type"/>
+                    <filter name="filter_active" string="Active" domain="[('deprecated','=',False)]"/>
+                    <filter name="filter_deprecated" string="Deprecated" domain="[('deprecated','=',True)]"/>
+                    <filter name="filter_reconcile" string="Reconcilable" domain="[('reconcile','=',True)]"/>
+                    <separator/>
+                    <filter name="filter_assets" string="Assets"
+                            domain="[('internal_group','=','asset')]"/>
+                    <filter name="filter_liabilities" string="Liabilities"
+                            domain="[('internal_group','=','liability')]"/>
+                    <filter name="filter_equity" string="Equity"
+                            domain="[('internal_group','=','equity')]"/>
+                    <filter name="filter_income" string="Income"
+                            domain="[('internal_group','=','income')]"/>
+                    <filter name="filter_expense" string="Expenses"
+                            domain="[('internal_group','=','expense')]"/>
+                    <group>
+                        <filter name="group_by_type" string="Account Type"
+                                context="{'group_by':'account_type'}"/>
+                        <filter name="group_by_group" string="Account Group"
+                                context="{'group_by':'group_id'}"/>
+                        <filter name="group_by_company" string="Company"
+                                context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ══ Action ════════════════════════════════════════════════ -->
+        <record id="action_custom_account_account" model="ir.actions.act_window">
+            <field name="name">Chart of Accounts</field>
+            <field name="res_model">custom.account.account</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_custom_account_account_search"/>
+            <field name="context">{'search_default_filter_active': 1}</field>
+        </record>
+
+    </data>
+</odoo>

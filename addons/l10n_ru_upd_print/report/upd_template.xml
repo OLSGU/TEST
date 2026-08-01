@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_upd_template">
+<t t-call="web.html_container">
+<t t-foreach="docs" t-as="o">
+<t t-call="web.external_layout">
+<div class="page" style="font-family: Arial, sans-serif; font-size: 9pt; color: #000;">
+
+    <!-- ========================================================== -->
+    <!-- СТИЛИ                                                        -->
+    <!-- ========================================================== -->
+    <style>
+        .upd-table { width: 100%; border-collapse: collapse; }
+        .upd-table td, .upd-table th {
+            border: 1px solid #000;
+            padding: 2px 4px;
+            vertical-align: top;
+        }
+        .upd-table th { background: #f0f0f0; text-align: center; font-weight: bold; }
+        .no-border td { border: none; }
+        .label { color: #555; font-size: 8pt; }
+        .bold { font-weight: bold; }
+        .center { text-align: center; }
+        .right { text-align: right; }
+        .small { font-size: 7.5pt; }
+        .upd-header { border: 2px solid #000; padding: 4px; margin-bottom: 4px; }
+        .section-title {
+            background: #d9d9d9;
+            font-weight: bold;
+            text-align: center;
+            padding: 3px;
+            border: 1px solid #000;
+        }
+        .field-line { border-bottom: 1px solid #000; min-height: 16px; display: inline-block; width: 100%; }
+        .upd-sign-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+        .upd-sign-table td { padding: 2px 4px; vertical-align: bottom; }
+        .sign-line { border-bottom: 1px solid #000; min-width: 80px; display: inline-block; }
+    </style>
+
+    <!-- ========================================================== -->
+    <!-- ШАПКА ДОКУМЕНТА                                              -->
+    <!-- ========================================================== -->
+    <table style="width:100%; border: 2px solid #000; margin-bottom:6px;">
+        <tr>
+            <td style="width:15%; border-right:1px solid #000; text-align:center; vertical-align:middle; padding:4px;">
+                <div class="bold" style="font-size:11pt;">УПД</div>
+                <div class="small">Универсальный<br/>передаточный<br/>документ</div>
+            </td>
+            <td style="width:55%; padding:4px; border-right:1px solid #000;">
+                <table style="width:100%;">
+                    <tr>
+                        <td class="small label">Счёт-фактура №</td>
+                        <td class="bold" style="border-bottom:1px solid #000;">
+                            <t t-esc="o.name"/>
+                        </td>
+                        <td class="small label" style="padding-left:8px;">от</td>
+                        <td class="bold" style="border-bottom:1px solid #000;">
+                            <t t-esc="o.invoice_date and o.invoice_date.strftime('%d.%m.%Y') or ''"/>
+                        </td>
+                    </tr>
+                    <tr><td colspan="4" style="height:4px;"></td></tr>
+                    <tr>
+                        <td class="small label">Исправление №</td>
+                        <td style="border-bottom:1px solid #000;">&#160;</td>
+                        <td class="small label" style="padding-left:8px;">от</td>
+                        <td style="border-bottom:1px solid #000;">&#160;</td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width:30%; padding:4px; text-align:center; vertical-align:middle;">
+                <div class="small label">Статус</div>
+                <div style="font-size:28pt; font-weight:bold; line-height:1;">
+                    <t t-if="o.move_type in ('out_invoice','out_refund')">1</t>
+                    <t t-else="">2</t>
+                </div>
+                <div class="small">(1 — счёт-фактура и передаточный документ;<br/>2 — только передаточный документ)</div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ========================================================== -->
+    <!-- ПРОДАВЕЦ / ПОКУПАТЕЛЬ                                        -->
+    <!-- ========================================================== -->
+    <table class="upd-table" style="margin-bottom:4px;">
+        <tr>
+            <td style="width:15%;" class="label bold center">Продавец</td>
+            <td style="width:50%;" class="bold">
+                <t t-if="o.move_type in ('out_invoice','out_refund')">
+                    <t t-esc="o.company_id.name"/>
+                </t>
+                <t t-else="">
+                    <t t-esc="o.partner_id.name"/>
+                </t>
+            </td>
+            <td style="width:15%;" class="label center">ИНН/КПП продавца</td>
+            <td style="width:20%;">
+                <t t-if="o.move_type in ('out_invoice','out_refund')">
+                    <t t-esc="(o.company_id.vat or '').replace('RU','')"/>
+                    /
+                    <t t-esc="o.company_id.company_registry or ''"/>
+                </t>
+                <t t-else="">
+                    <t t-esc="(o.partner_id.vat or '').replace('RU','')"/>
+                </t>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Адрес продавца</td>
+            <td colspan="3">
+                <t t-if="o.move_type in ('out_invoice','out_refund')">
+                    <t t-esc="', '.join(filter(None, [o.company_id.street, o.company_id.city, o.company_id.country_id.name]))"/>
+                </t>
+                <t t-else="">
+                    <t t-esc="', '.join(filter(None, [o.partner_id.street, o.partner_id.city, o.partner_id.country_id.name]))"/>
+                </t>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Грузоотправитель и его адрес</td>
+            <td colspan="3">
+                <t t-if="o.move_type in ('out_invoice','out_refund')">
+                    <t t-esc="o.company_id.name"/> / <t t-esc="', '.join(filter(None, [o.company_id.street, o.company_id.city]))"/>
+                </t>
+                <t t-else="">он же</t>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Грузополучатель и его адрес</td>
+            <td colspan="3">
+                <t t-if="o.move_type in ('out_invoice','out_refund')">
+                    <t t-esc="o.partner_id.name"/> / <t t-esc="', '.join(filter(None, [o.partner_id.street, o.partner_id.city]))"/>
+                </t>
+                <t t-else="">
+                    <t t-esc="o.company_id.name"/>
+                </t>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">К платёжно-расчётному документу №</td>
+            <td><t t-esc="o.payment_reference or ''"/></td>
+            <td class="label">от</td>
+            <td>&#160;</td>
+        </tr>
+        <tr>
+            <td class="label bold">Покупатель</td>
+            <td class="bold">
+                <t t-if="o.move_type in ('out_invoice','out_refund')">
+                    <t t-esc="o.partner_id.name"/>
+                </t>
+                <t t-else="">
+                    <t t-esc="o.company_id.name"/>
+                </t>
+            </td>
+            <td class="label">ИНН/КПП покупателя</td>
+            <td>
+                <t t-if="o.move_type in ('out_invoice','out_refund')">
+                    <t t-esc="(o.partner_id.vat or '').replace('RU','')"/>
+                </t>
+                <t t-else="">
+                    <t t-esc="(o.company_id.vat or '').replace('RU','')"/>
+                    /
+                    <t t-esc="o.company_id.company_registry or ''"/>
+                </t>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Валюта</td>
+            <td colspan="3">
+                <t t-esc="o.currency_id.name"/> — <t t-esc="o.currency_id.full_name or o.currency_id.name"/>
+                (код <t t-esc="o.currency_id.name"/>)
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Идентификатор государственного контракта</td>
+            <td colspan="3">&#160;</td>
+        </tr>
+    </table>
+
+    <!-- ========================================================== -->
+    <!-- ТАБЛИЦА ТОВАРОВ / УСЛУГ                                      -->
+    <!-- ========================================================== -->
+    <table class="upd-table" style="margin-bottom:4px; font-size:8pt;">
+        <thead>
+            <tr style="background:#e8e8e8;">
+                <th style="width:3%;">№</th>
+                <th style="width:25%;">Наименование товара (работ, услуг)</th>
+                <th style="width:6%;">Ед. изм.</th>
+                <th style="width:6%;">Коли-чество</th>
+                <th style="width:8%;">Цена за ед. без НДС</th>
+                <th style="width:6%;">Стоимость без НДС</th>
+                <th style="width:5%;">Акциз</th>
+                <th style="width:6%;">Нал. ставка НДС</th>
+                <th style="width:8%;">Сумма НДС</th>
+                <th style="width:9%;">Стоимость с НДС</th>
+                <th style="width:8%;">Страна происхождения</th>
+                <th style="width:10%;">Рег. номер деклар.</th>
+            </tr>
+            <tr class="center small" style="background:#f5f5f5;">
+                <td>1</td><td>2</td><td>2а</td><td>3</td><td>4</td>
+                <td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
+                <td>10</td><td>11</td>
+            </tr>
+        </thead>
+        <tbody>
+            <t t-foreach="o.invoice_line_ids.filtered(lambda l: l.display_type == 'product')" t-as="line">
+            <tr>
+                <td class="center"><t t-esc="line_index + 1"/></td>
+                <td>
+                    <t t-esc="line.name"/>
+                    <t t-if="line.product_id.default_code">
+                        <br/><span class="small label">[<t t-esc="line.product_id.default_code"/>]</span>
+                    </t>
+                </td>
+                <td class="center">
+                    <t t-esc="line.product_uom_id.name if line.product_uom_id else 'шт'"/>
+                </td>
+                <td class="right">
+                    <t t-esc="'%.2f' % line.quantity"/>
+                </td>
+                <td class="right">
+                    <t t-esc="'%.2f' % line.price_unit"/>
+                </td>
+                <td class="right">
+                    <t t-esc="'%.2f' % (line.price_subtotal)"/>
+                </td>
+                <td class="center">без акциза</td>
+                <td class="center">
+                    <t t-if="line.tax_ids">
+                        <t t-foreach="line.tax_ids" t-as="tax">
+                            <t t-esc="'%.0f%%' % tax.amount if tax.amount_type == 'percent' else tax.name"/>
+                        </t>
+                    </t>
+                    <t t-else="">Без НДС</t>
+                </td>
+                <td class="right">
+                    <t t-esc="'%.2f' % (line.price_total - line.price_subtotal)"/>
+                </td>
+                <td class="right">
+                    <t t-esc="'%.2f' % line.price_total"/>
+                </td>
+                <td class="center">
+                    <t t-esc="o.company_id.country_id.name or 'Россия'"/>
+                </td>
+                <td>&#160;</td>
+            </tr>
+            </t>
+        </tbody>
+        <!-- ИТОГО -->
+        <tfoot>
+            <tr style="font-weight:bold; background:#f0f0f0;">
+                <td colspan="5" class="right">Итого:</td>
+                <td class="right">
+                    <t t-esc="'%.2f' % o.amount_untaxed"/>
+                </td>
+                <td>&#160;</td>
+                <td>&#160;</td>
+                <td class="right">
+                    <t t-esc="'%.2f' % o.amount_tax"/>
+                </td>
+                <td class="right">
+                    <t t-esc="'%.2f' % o.amount_total"/>
+                </td>
+                <td colspan="2">&#160;</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- ========================================================== -->
+    <!-- ОСНОВАНИЕ / ПЕРЕДАЧА                                         -->
+    <!-- ========================================================== -->
+    <table class="upd-table" style="margin-bottom:4px; font-size:8.5pt;">
+        <tr>
+            <td style="width:25%;" class="label">Основание передачи (сдачи) / получения (приёмки)</td>
+            <td style="width:75%;">
+                <t t-esc="o.invoice_origin or o.name or ''"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Данные о транспортировке и грузе</td>
+            <td>&#160;</td>
+        </tr>
+        <tr>
+            <td class="label">Иные сведения об отгрузке, передаче</td>
+            <td>
+                <t t-esc="o.narration or ''"/>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ========================================================== -->
+    <!-- БЛОК ПОДПИСЕЙ (разделён на две половины: продавец/покупатель) -->
+    <!-- ========================================================== -->
+    <table style="width:100%; border-collapse:collapse; border:1px solid #000; font-size:8.5pt;">
+        <tr>
+            <!-- ЛЕВАЯ ПОЛОВИНА — Продавец/Исполнитель -->
+            <td style="width:50%; border-right:1px solid #000; padding:4px; vertical-align:top;">
+                <div class="bold center" style="margin-bottom:4px;">
+                    Товар (груз) передал / услуги, результаты работ сдал
+                </div>
+
+                <!-- Руководитель -->
+                <table style="width:100%; margin-bottom:8px;">
+                    <tr>
+                        <td class="label small" style="width:40%;">Руководитель организации или иное уполномоченное лицо</td>
+                        <td style="width:20%; border-bottom:1px solid #000; text-align:center;">&#160;</td>
+                        <td style="width:5%; text-align:center;">/</td>
+                        <td style="width:35%; border-bottom:1px solid #000; text-align:center;">
+                            <t t-if="o.move_type in ('out_invoice','out_refund')">
+                                <t t-esc="o.company_id.name"/>
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="center small label">подпись</td>
+                        <td></td>
+                        <td class="center small label">расшифровка подписи</td>
+                    </tr>
+                </table>
+
+                <!-- Главный бухгалтер -->
+                <table style="width:100%; margin-bottom:8px;">
+                    <tr>
+                        <td class="label small" style="width:40%;">Главный бухгалтер или иное уполномоченное лицо</td>
+                        <td style="width:20%; border-bottom:1px solid #000; text-align:center;">&#160;</td>
+                        <td style="width:5%; text-align:center;">/</td>
+                        <td style="width:35%; border-bottom:1px solid #000; text-align:center;">&#160;</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="center small label">подпись</td>
+                        <td></td>
+                        <td class="center small label">расшифровка подписи</td>
+                    </tr>
+                </table>
+
+                <!-- ИП -->
+                <table style="width:100%; margin-bottom:8px;">
+                    <tr>
+                        <td class="label small" style="width:40%;">Индивидуальный предприниматель</td>
+                        <td style="width:20%; border-bottom:1px solid #000; text-align:center;">&#160;</td>
+                        <td style="width:5%; text-align:center;">/</td>
+                        <td style="width:35%; border-bottom:1px solid #000; text-align:center;">&#160;</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="center small label">подпись</td>
+                        <td></td>
+                        <td class="center small label">расшифровка / реквизиты свидетельства</td>
+                    </tr>
+                </table>
+
+                <div class="label small">Наименование экономического субъекта — составителя документа</div>
+                <div style="border-bottom:1px solid #000; min-height:16px;">
+                    <t t-if="o.move_type in ('out_invoice','out_refund')">
+                        <t t-esc="o.company_id.name"/>
+                    </t>
+                    <t t-else="">
+                        <t t-esc="o.partner_id.name"/>
+                    </t>
+                </div>
+
+                <div style="margin-top:6px;">
+                    <span class="label small">Лицо, ответственное за правильность оформления факта хозяйственной жизни</span>
+                </div>
+                <table style="width:100%; margin-top:2px;">
+                    <tr>
+                        <td style="width:50%; border-bottom:1px solid #000; text-align:center;">&#160;</td>
+                        <td style="width:5%; text-align:center;">/</td>
+                        <td style="width:45%; border-bottom:1px solid #000; text-align:center;">&#160;</td>
+                    </tr>
+                    <tr>
+                        <td class="center small label">подпись</td>
+                        <td></td>
+                        <td class="center small label">расшифровка подписи</td>
+                    </tr>
+                </table>
+                <table style="width:100%; margin-top:4px;">
+                    <tr>
+                        <td class="label small" style="width:35%;">Дата отгрузки, передачи (сдачи)</td>
+                        <td style="border-bottom:1px solid #000; text-align:center;">
+                            <t t-esc="o.invoice_date and o.invoice_date.strftime('%d.%m.%Y') or ''"/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+            <!-- ПРАВАЯ ПОЛОВИНА — Покупатель/Заказчик -->
+            <td style="width:50%; padding:4px; vertical-align:top;">
+                <div class="bold center" style="margin-bottom:4px;">
+                    Товар (груз) получил / услуги, результаты работ принял
+                </div>
+
+                <table style="width:100%; margin-bottom:8px;">
+                    <tr>
+                        <td class="label small" style="width:40%;">Руководитель организации или иное уполномоченное лицо</td>
+                        <td style="width:20%; border-bottom:1px solid #000; text-align:center;">&#160;</td>
+                        <td style="width:5%; text-align:center;">/</td>
+                        <td style="width:35%; border-bottom:1px solid #000; text-align:center;">
+                            <t t-if="o.move_type in ('in_invoice','in_refund')">
+                                <t t-esc="o.company_id.name"/>
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="center small label">подпись</td>
+                        <td></td>
+                        <td class="center small label">расшифровка подписи</td>
+                    </tr>
+                </table>
+
+                <div class="label small">Наименование экономического субъекта — составителя документа</div>
+                <div style="border-bottom:1px solid #000; min-height:16px;">
+                    <t t-if="o.move_type in ('out_invoice','out_refund')">
+                        <t t-esc="o.partner_id.name"/>
+                    </t>
+                    <t t-else="">
+                        <t t-esc="o.company_id.name"/>
+                    </t>
+                </div>
+
+                <div style="margin-top:6px;">
+                    <span class="label small">Лицо, ответственное за правильность оформления факта хозяйственной жизни</span>
+                </div>
+                <table style="width:100%; margin-top:2px;">
+                    <tr>
+                        <td style="width:50%; border-bottom:1px solid #000; text-align:center;">&#160;</td>
+                        <td style="width:5%; text-align:center;">/</td>
+                        <td style="width:45%; border-bottom:1px solid #000; text-align:center;">&#160;</td>
+                    </tr>
+                    <tr>
+                        <td class="center small label">подпись</td>
+                        <td></td>
+                        <td class="center small label">расшифровка подписи</td>
+                    </tr>
+                </table>
+                <table style="width:100%; margin-top:4px;">
+                    <tr>
+                        <td class="label small" style="width:35%;">Дата получения (приёмки)</td>
+                        <td style="border-bottom:1px solid #000; text-align:center;">&#160;</td>
+                    </tr>
+                </table>
+
+                <div style="margin-top:6px;" class="label small">
+                    Иные сведения о получении, приёмке:
+                </div>
+                <div style="border-bottom:1px solid #000; min-height:14px;">&#160;</div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ========================================================== -->
+    <!-- ИТОГОВАЯ СТРОКА                                              -->
+    <!-- ========================================================== -->
+    <table style="width:100%; border-collapse:collapse; border:1px solid #000; border-top:none; font-size:8.5pt;">
+        <tr>
+            <td style="padding:4px;">
+                <span class="label">Наименование документа, подтверждающего отгрузку/передачу:</span>
+                <span style="border-bottom:1px solid #000; display:inline-block; min-width:200px; margin-left:4px;">
+                    <t t-esc="o.name"/>
+                </span>
+            </td>
+            <td style="padding:4px; border-left:1px solid #000;">
+                <span class="label">Документ о расхождениях:</span>
+                <span style="border-bottom:1px solid #000; display:inline-block; min-width:120px; margin-left:4px;">&#160;</span>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Сумма прописью -->
+    <div style="margin-top:6px; font-size:8.5pt;">
+        <span class="label">Итого к оплате:</span>
+        <span class="bold">
+            <t t-esc="'%.2f' % o.amount_total"/>
+            <t t-esc="o.currency_id.name"/>
+        </span>
+    </div>
+
+</div>
+</t>
+</t>
+</t>
+</template>
+</odoo>

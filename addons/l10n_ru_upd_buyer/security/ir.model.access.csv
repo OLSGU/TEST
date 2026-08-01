@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_upd_buyer_user,upd.buyer.user,model_l10n_ru_upd_buyer,account.group_account_invoice,1,1,1,0
+access_upd_buyer_manager,upd.buyer.manager,model_l10n_ru_upd_buyer,account.group_account_manager,1,1,1,1
+access_upd_buyer_ep_user,upd.buyer.ep.user,model_l10n_ru_upd_buyer_ep,account.group_account_invoice,1,1,1,0
+access_upd_buyer_ep_manager,upd.buyer.ep.manager,model_l10n_ru_upd_buyer_ep,account.group_account_manager,1,1,1,1
+access_upd_buyer_textinfo_user,upd.buyer.textinfo.user,model_l10n_ru_upd_buyer_textinfo,account.group_account_invoice,1,1,1,0
+access_upd_buyer_textinfo_manager,upd.buyer.textinfo.manager,model_l10n_ru_upd_buyer_textinfo,account.group_account_manager,1,1,1,1
+access_upd_buyer_signatory_user,upd.buyer.signatory.user,model_l10n_ru_upd_buyer_signatory,account.group_account_invoice,1,1,1,0
+access_upd_buyer_signatory_manager,upd.buyer.signatory.manager,model_l10n_ru_upd_buyer_signatory,account.group_account_manager,1,1,1,1

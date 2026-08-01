@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="app_menu_appearance.AppLauncher">
+        <div t-if="state.open" class="o_app_launcher_overlay" t-on-click.self="onClose">
+            <div class="o_app_launcher_panel">
+                <button class="o_app_launcher_close btn btn-light"
+                        t-on-click="onClose" title="Закрыть">
+                    <i class="fa fa-times"/>
+                </button>
+                <div class="o_app_launcher_grid">
+                    <t t-foreach="apps" t-as="app" t-key="app.id">
+                        <button class="o_app_launcher_tile"
+                                t-on-click="() => this.onSelect(app)">
+                            <img t-if="iconSrc(app)"
+                                 class="o_app_launcher_icon"
+                                 t-att-src="iconSrc(app)"
+                                 t-att-alt="app.name"/>
+                            <div t-else=""
+                                 class="o_app_launcher_icon o_app_launcher_icon_fallback">
+                                <i class="fa fa-th-large"/>
+                            </div>
+                            <span class="o_app_launcher_name" t-esc="app.name"/>
+                        </button>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="app_menu_appearance.AppLauncherSystray">
+        <button class="o_app_launcher_systray btn"
+                t-on-click="onClick" title="Меню приложений">
+            <i class="fa fa-th"/>
+        </button>
+    </t>
+
+</templates>

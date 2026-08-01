@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Search View: в Odoo 19 <search> не принимает <field>, только <filter> и <group> без expand -->
+    <record id="view_upd_buyer_search" model="ir.ui.view">
+        <field name="name">l10n.ru.upd.buyer.search</field>
+        <field name="model">l10n.ru.upd.buyer</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="filter_draft" string="Черновики"
+                        domain="[('state','=','draft')]"/>
+                <filter name="filter_ready" string="Готовые"
+                        domain="[('state','=','ready')]"/>
+                <filter name="filter_sent" string="Отправленные"
+                        domain="[('state','=','sent')]"/>
+                <separator/>
+                <filter name="filter_accepted" string="Без расхождений"
+                        domain="[('result_code','=','1')]"/>
+                <filter name="filter_discrepancy" string="С расхождениями"
+                        domain="[('result_code','=','2')]"/>
+                <separator/>
+                <filter name="group_state" string="По статусу"
+                        context="{'group_by': 'state'}"/>
+                <filter name="group_date" string="По дате"
+                        context="{'group_by': 'date_info_buyer:month'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_upd_buyer_list" model="ir.ui.view">
+        <field name="name">l10n.ru.upd.buyer.list</field>
+        <field name="model">l10n.ru.upd.buyer</field>
+        <field name="arch" type="xml">
+            <list string="Информация покупателя">
+                <field name="name"/>
+                <field name="date_info_buyer"/>
+                <field name="compiler_name"/>
+                <field name="seller_file_id"/>
+                <field name="result_code"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'ready'"
+                       decoration-success="state == 'sent'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_upd_buyer_form" model="ir.ui.view">
+        <field name="name">l10n.ru.upd.buyer.form</field>
+        <field name="model">l10n.ru.upd.buyer</field>
+        <field name="arch" type="xml">
+            <form string="Информация покупателя (КНД 1115132)">
+                <header>
+                    <button name="action_set_ready" string="Отметить готовым"
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_generate_xml" string="Сформировать XML"
+                            type="object" class="btn-primary"
+                            invisible="state == 'sent'"/>
+                    <button name="action_view_xml" string="Скачать XML"
+                            type="object"
+                            invisible="not xml_file"/>
+                    <button name="action_set_draft" string="В черновик"
+                            type="object"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,ready,sent"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="ON_NSCHFDOPPOK_..."/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Атрибуты файла">
+                            <field name="version_format"/>
+                            <field name="version_program"/>
+                            <field name="knd_code"/>
+                        </group>
+                        <group string="Организация">
+                            <field name="company_id"/>
+                            <field name="invoice_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Участники ЭДО">
+                            <group string="Идентификаторы">
+                                <field name="sender_id"/>
+                                <field name="receiver_id"/>
+                            </group>
+                            <group string="Оператор ЭДО (необязательно)">
+                                <field name="edo_operator_name"/>
+                                <field name="edo_operator_inn"/>
+                                <field name="edo_operator_eid"/>
+                            </group>
+                        </page>
+
+                        <page string="Документ покупателя">
+                            <group string="Реквизиты (ИнфПок)">
+                                <group>
+                                    <field name="date_info_buyer"/>
+                                    <field name="time_info_buyer" placeholder="ЧЧ.ММ.СС"/>
+                                </group>
+                                <group>
+                                    <field name="compiler_name"/>
+                                    <field name="compiler_trust_basis"/>
+                                </group>
+                            </group>
+                            <group string="Файл продавца (ИдИнфПрод)">
+                                <group>
+                                    <field name="seller_file_id"/>
+                                    <field name="seller_file_date"/>
+                                    <field name="seller_file_time" placeholder="ЧЧ.ММ.СС"/>
+                                </group>
+                            </group>
+                            <field name="electronic_signature_ids" string="Электронные подписи (ЭП)">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="signature_value"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Принятие товаров">
+                            <group string="Итог приёмки">
+                                <group>
+                                    <field name="result_code"/>
+                                    <field name="discrepancy_doc_type"/>
+                                </group>
+                                <group>
+                                    <field name="discrepancy_doc_name"/>
+                                    <field name="discrepancy_doc_number"/>
+                                    <field name="discrepancy_doc_date"/>
+                                    <field name="discrepancy_file_id"/>
+                                </group>
+                            </group>
+                            <group string="Лицо, принявшее товар">
+                                <group>
+                                    <field name="acceptor_type"/>
+                                    <field name="acceptor_last_name"/>
+                                    <field name="acceptor_first_name"/>
+                                    <field name="acceptor_middle_name"/>
+                                </group>
+                                <group>
+                                    <field name="acceptor_position"/>
+                                    <field name="acceptor_authority_basis"/>
+                                    <field name="acceptor_other_info"/>
+                                    <field name="acceptor_org_inn"
+                                           invisible="acceptor_type != 'rep_org'"/>
+                                    <field name="acceptor_org_name"
+                                           invisible="acceptor_type != 'rep_org'"/>
+                                </group>
+                            </group>
+                            <field name="text_info_ids" string="Доп. поля (ТекстИнф)">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="identifier"/>
+                                    <field name="value"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Платёжные реквизиты">
+                            <group>
+                                <group>
+                                    <field name="payment_account"/>
+                                    <field name="payment_bank_bik"/>
+                                    <field name="payment_bank_name"/>
+                                    <field name="payment_corr_account"/>
+                                </group>
+                                <group>
+                                    <field name="payment_okato"/>
+                                    <field name="payment_kbk"/>
+                                    <field name="payment_obligation_number"/>
+                                    <field name="payment_order"/>
+                                    <field name="payment_type"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Подписанты">
+                            <field name="signatory_ids">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="last_name"/>
+                                    <field name="first_name"/>
+                                    <field name="middle_name"/>
+                                    <field name="signatory_type"/>
+                                    <field name="status"/>
+                                    <field name="authority_scope"/>
+                                </list>
+                                <form string="Подписант">
+                                    <group string="Полномочия">
+                                        <field name="authority_scope"/>
+                                        <field name="status"/>
+                                        <field name="authority_basis"/>
+                                        <field name="authority_basis_org"/>
+                                    </group>
+                                    <group string="Тип">
+                                        <field name="signatory_type"/>
+                                    </group>
+                                    <group string="ФИО">
+                                        <field name="last_name"/>
+                                        <field name="first_name"/>
+                                        <field name="middle_name"/>
+                                    </group>
+                                    <group string="Физическое лицо"
+                                           invisible="signatory_type != 'fl'">
+                                        <field name="fl_inn"/>
+                                        <field name="fl_other_info"/>
+                                    </group>
+                                    <group string="ИП"
+                                           invisible="signatory_type != 'ip'">
+                                        <field name="ip_inn"/>
+                                        <field name="ip_reg_certificate"/>
+                                        <field name="ip_other_info"/>
+                                    </group>
+                                    <group string="Юридическое лицо"
+                                           invisible="signatory_type != 'ul'">
+                                        <field name="ul_inn"/>
+                                        <field name="ul_org_name"/>
+                                        <field name="ul_position"/>
+                                        <field name="ul_other_info"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+
+                        <page string="Примечания">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_upd_buyer" model="ir.actions.act_window">
+        <field name="name">Информация покупателя (УПД)</field>
+        <field name="res_model">l10n.ru.upd.buyer</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Создайте первый документ информации покупателя
+            </p>
+        </field>
+    </record>
+
+</odoo>

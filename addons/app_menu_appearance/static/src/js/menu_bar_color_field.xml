@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="app_menu_appearance.MenuBarColorField">
+        <div class="o_field_menu_bar_color d-inline-flex align-items-center gap-2">
+            <input type="color"
+                   class="o_menu_bar_color_input"
+                   t-att-value="pickerColor"
+                   t-on-change="onColorChange"/>
+            <span class="o_menu_bar_color_value text-muted"
+                  t-esc="value or 'Цвет темы'"/>
+            <button type="button"
+                    class="btn btn-link btn-sm o_menu_bar_color_reset"
+                    t-on-click="onReset"
+                    t-if="value">
+                Сбросить
+            </button>
+        </div>
+    </t>
+
+</templates>

@@ -1,0 +1,125 @@
+// ---------------------------------------------------------------------------
+// Персональные настройки внешнего вида меню приложений.
+// Классы на <body> проставляет app_menu_appearance_service.js по данным из
+// session_info.
+// ---------------------------------------------------------------------------
+
+// --- Цвет верхней полосы меню ---------------------------------------------
+// Переменную --app-menu-bar-color устанавливает сервис при наличии выбранного
+// пользователем цвета.
+body.o_app_menu_custom_color {
+    .o_main_navbar {
+        background-color: var(--app-menu-bar-color) !important;
+
+        // Внутренние блоки навбара (бренд-приложения, секции меню, systray) в
+        // теме Odoo имеют собственный фон — из-за него середина полосы
+        // оставалась цвета темы. Делаем их прозрачными, чтобы сквозь них был
+        // виден единый цвет всей панели.
+        .o_menu_brand,
+        .o_menu_sections,
+        .o_menu_sections > *,
+        .o_menu_systray,
+        .o_menu_systray > *,
+        .o_navbar_apps_menu {
+            background-color: transparent !important;
+        }
+    }
+}
+
+// --- Виджет выбора цвета в предпочтениях -----------------------------------
+.o_field_menu_bar_color {
+    .o_menu_bar_color_input {
+        width: 42px;
+        height: 28px;
+        padding: 0;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        background: none;
+        cursor: pointer;
+    }
+
+    .o_menu_bar_color_value {
+        font-family: monospace;
+    }
+}
+
+// --- Режим отображения меню приложений «иконками» (как Enterprise) ----------
+// Полноэкранный лаунчер приложений (компонент AppLauncher). Отрисовывает
+// приложения крупными плитками с иконками поверх экрана.
+.o_app_launcher_overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 6vh 24px;
+    overflow: auto;
+}
+
+.o_app_launcher_panel {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+}
+
+.o_app_launcher_close {
+    position: absolute;
+    top: -12px;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.o_app_launcher_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    padding: 32px 0;
+}
+
+.o_app_launcher_tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 12px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+
+    &:hover,
+    &:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+}
+
+.o_app_launcher_icon {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+}
+
+.o_app_launcher_icon_fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: var(--app-menu-bar-color, #714b67);
+}
+
+.o_app_launcher_name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #212529;
+}

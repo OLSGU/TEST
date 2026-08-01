@@ -1,0 +1,73 @@
+/* ================================================================
+   Custom Accounting Module — Backend CSS
+   ================================================================ */
+
+/* ── Journal Breakdown Tab ─────────────────────────────────────── */
+.o_form_view .o_notebook .nav-link[name="custom_journal_breakdown"] {
+    font-weight: 600;
+    position: relative;
+}
+
+/* Balanced indicator badge on the tab */
+.o_form_view .page[name="custom_journal_breakdown"] .o_field_boolean .o_toggle {
+    pointer-events: none;
+}
+
+/* Debit row highlight */
+.o_list_view .o_data_row td.o_field_cell[name="debit"] {
+    color: #1a6a4e;
+    font-weight: 500;
+}
+
+/* Credit row highlight */
+.o_list_view .o_data_row td.o_field_cell[name="credit"] {
+    color: #a33030;
+    font-weight: 500;
+}
+
+/* Negative balance — red */
+.o_list_view .o_data_row td.o_field_cell[name="balance"] .o_field_widget {
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── Chart of Accounts list ────────────────────────────────────── */
+.o_list_view[model="custom.account.account"] .o_data_row td[name="code"] {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+/* Account group hierarchy indentation */
+.o_list_view[model="custom.account.group"] .o_data_row td[name="complete_name"] {
+    padding-left: calc(8px + var(--level, 0) * 16px);
+}
+
+/* ── Period status badges ──────────────────────────────────────── */
+.badge.text-bg-success { background-color: #198754 !important; }
+.badge.text-bg-secondary { background-color: #6c757d !important; }
+
+/* ── Sync button indicator ─────────────────────────────────────── */
+.o_statusbar_buttons .btn-secondary[name="action_sync_custom_lines"] {
+    border-color: #0d6efd;
+    color: #0d6efd;
+}
+.o_statusbar_buttons .btn-secondary[name="action_sync_custom_lines"]:hover {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+/* ── Balance totals section ────────────────────────────────────── */
+.page[name="custom_journal_breakdown"] .o_inner_group .o_field_widget[name="custom_total_debit"] {
+    color: #1a6a4e;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+.page[name="custom_journal_breakdown"] .o_inner_group .o_field_widget[name="custom_total_credit"] {
+    color: #a33030;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+.page[name="custom_journal_breakdown"] .o_inner_group .o_field_widget[name="custom_balance"] {
+    font-size: 1.1rem;
+    font-weight: 700;
+}

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <data>
+
+        <!-- ══════════════════════════════════════════════════════════
+             PLAN СЧЕТОВ  (выборочный, типовой)
+             ══════════════════════════════════════════════════════════ -->
+
+        <!-- 01 — Fixed Assets -->
+        <record id="acc_0101" model="custom.account.account">
+            <field name="code">0101</field>
+            <field name="name">Land</field>
+            <field name="account_type">asset_non_current</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_01"/>
+        </record>
+        <record id="acc_0102" model="custom.account.account">
+            <field name="code">0102</field>
+            <field name="name">Buildings &amp; Structures</field>
+            <field name="account_type">asset_non_current</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_01"/>
+        </record>
+        <record id="acc_0103" model="custom.account.account">
+            <field name="code">0103</field>
+            <field name="name">Machinery &amp; Equipment</field>
+            <field name="account_type">asset_non_current</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_01"/>
+        </record>
+        <record id="acc_0104" model="custom.account.account">
+            <field name="code">0104</field>
+            <field name="name">Vehicles</field>
+            <field name="account_type">asset_non_current</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_01"/>
+        </record>
+
+        <!-- 02 — Accumulated Depreciation -->
+        <record id="acc_0201" model="custom.account.account">
+            <field name="code">0201</field>
+            <field name="name">Accum. Depreciation — Buildings</field>
+            <field name="account_type">asset_non_current</field>
+            <field name="normal_balance">credit</field>
+            <field name="group_id" ref="group_02"/>
+        </record>
+        <record id="acc_0202" model="custom.account.account">
+            <field name="code">0202</field>
+            <field name="name">Accum. Depreciation — Machinery</field>
+            <field name="account_type">asset_non_current</field>
+            <field name="normal_balance">credit</field>
+            <field name="group_id" ref="group_02"/>
+        </record>
+
+        <!-- 10 — Materials -->
+        <record id="acc_1010" model="custom.account.account">
+            <field name="code">1010</field>
+            <field name="name">Raw Materials</field>
+            <field name="account_type">asset_current</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_10"/>
+        </record>
+        <record id="acc_1011" model="custom.account.account">
+            <field name="code">1011</field>
+            <field name="name">Purchased Semi-finished Goods</field>
+            <field name="account_type">asset_current</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_10"/>
+        </record>
+        <record id="acc_1090" model="custom.account.account">
+            <field name="code">1090</field>
+            <field name="name">Other Materials</field>
+            <field name="account_type">asset_current</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_10"/>
+        </record>
+
+        <!-- 20 — Main Production -->
+        <record id="acc_2010" model="custom.account.account">
+            <field name="code">2010</field>
+            <field name="name">Direct Labor Costs</field>
+            <field name="account_type">expense_direct_cost</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_20"/>
+        </record>
+        <record id="acc_2020" model="custom.account.account">
+            <field name="code">2020</field>
+            <field name="name">Direct Material Costs</field>
+            <field name="account_type">expense_direct_cost</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_20"/>
+        </record>
+
+        <!-- 41 — Goods -->
+        <record id="acc_4110" model="custom.account.account">
+            <field name="code">4110</field>
+            <field name="name">Goods in Warehouses</field>
+            <field name="account_type">asset_current</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_41"/>
+        </record>
+        <record id="acc_4120" model="custom.account.account">
+            <field name="code">4120</field>
+            <field name="name">Goods in Retail</field>
+            <field name="account_type">asset_current</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_41"/>
+        </record>
+
+        <!-- 44 — Selling Expenses -->
+        <record id="acc_4410" model="custom.account.account">
+            <field name="code">4410</field>
+            <field name="name">Advertising &amp; Marketing</field>
+            <field name="account_type">expense</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_44"/>
+        </record>
+        <record id="acc_4420" model="custom.account.account">
+            <field name="code">4420</field>
+            <field name="name">Delivery &amp; Freight</field>
+            <field name="account_type">expense</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_44"/>
+        </record>
+
+        <!-- 50 — Cash -->
+        <record id="acc_5010" model="custom.account.account">
+            <field name="code">5010</field>
+            <field name="name">Petty Cash — Main</field>
+            <field name="account_type">asset_cash</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_50"/>
+        </record>
+
+        <!-- 51 — Bank -->
+        <record id="acc_5110" model="custom.account.account">
+            <field name="code">5110</field>
+            <field name="name">Bank — Current Account (RUB)</field>
+            <field name="account_type">asset_cash</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_51"/>
+        </record>
+        <record id="acc_5120" model="custom.account.account">
+            <field name="code">5120</field>
+            <field name="name">Bank — Current Account (USD)</field>
+            <field name="account_type">asset_cash</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_51"/>
+        </record>
+
+        <!-- 60 — Payables -->
+        <record id="acc_6010" model="custom.account.account">
+            <field name="code">6010</field>
+            <field name="name">Accounts Payable — Suppliers</field>
+            <field name="account_type">liability_payable</field>
+            <field name="normal_balance">credit</field>
+            <field name="reconcile">True</field>
+            <field name="group_id" ref="group_60"/>
+        </record>
+        <record id="acc_6020" model="custom.account.account">
+            <field name="code">6020</field>
+            <field name="name">Advances Paid to Suppliers</field>
+            <field name="account_type">asset_current</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_60"/>
+        </record>
+
+        <!-- 62 — Receivables -->
+        <record id="acc_6210" model="custom.account.account">
+            <field name="code">6210</field>
+            <field name="name">Accounts Receivable — Customers</field>
+            <field name="account_type">asset_receivable</field>
+            <field name="normal_balance">debit</field>
+            <field name="reconcile">True</field>
+            <field name="group_id" ref="group_62"/>
+        </record>
+        <record id="acc_6220" model="custom.account.account">
+            <field name="code">6220</field>
+            <field name="name">Advances Received from Customers</field>
+            <field name="account_type">liability_current</field>
+            <field name="normal_balance">credit</field>
+            <field name="group_id" ref="group_62"/>
+        </record>
+
+        <!-- 26 — G&A Expenses -->
+        <record id="acc_2610" model="custom.account.account">
+            <field name="code">2610</field>
+            <field name="name">Office Rent</field>
+            <field name="account_type">expense</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_26"/>
+        </record>
+        <record id="acc_2620" model="custom.account.account">
+            <field name="code">2620</field>
+            <field name="name">Utilities</field>
+            <field name="account_type">expense</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_26"/>
+        </record>
+        <record id="acc_2630" model="custom.account.account">
+            <field name="code">2630</field>
+            <field name="name">Communication &amp; Internet</field>
+            <field name="account_type">expense</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_26"/>
+        </record>
+
+        <!-- 68 — Taxes -->
+        <record id="acc_6810" model="custom.account.account">
+            <field name="code">6810</field>
+            <field name="name">VAT Payable</field>
+            <field name="account_type">liability_current</field>
+            <field name="normal_balance">credit</field>
+            <field name="group_id" ref="group_68"/>
+        </record>
+        <record id="acc_6820" model="custom.account.account">
+            <field name="code">6820</field>
+            <field name="name">Income Tax Payable</field>
+            <field name="account_type">liability_current</field>
+            <field name="normal_balance">credit</field>
+            <field name="group_id" ref="group_68"/>
+        </record>
+
+        <!-- 70 — Payroll -->
+        <record id="acc_7010" model="custom.account.account">
+            <field name="code">7010</field>
+            <field name="name">Salaries Payable</field>
+            <field name="account_type">liability_current</field>
+            <field name="normal_balance">credit</field>
+            <field name="group_id" ref="group_70"/>
+        </record>
+
+        <!-- 80 — Capital -->
+        <record id="acc_8010" model="custom.account.account">
+            <field name="code">8010</field>
+            <field name="name">Authorized Capital</field>
+            <field name="account_type">equity</field>
+            <field name="normal_balance">credit</field>
+            <field name="group_id" ref="group_80"/>
+        </record>
+
+        <!-- 84 — Retained Earnings -->
+        <record id="acc_8410" model="custom.account.account">
+            <field name="code">8410</field>
+            <field name="name">Retained Earnings (Current Year)</field>
+            <field name="account_type">equity_unaffected</field>
+            <field name="normal_balance">credit</field>
+            <field name="group_id" ref="group_84"/>
+        </record>
+
+        <!-- 90 — Revenue -->
+        <record id="acc_9010" model="custom.account.account">
+            <field name="code">9010</field>
+            <field name="name">Revenue — Product Sales</field>
+            <field name="account_type">income</field>
+            <field name="normal_balance">credit</field>
+            <field name="group_id" ref="group_90"/>
+        </record>
+        <record id="acc_9020" model="custom.account.account">
+            <field name="code">9020</field>
+            <field name="name">Revenue — Service Rendering</field>
+            <field name="account_type">income</field>
+            <field name="normal_balance">credit</field>
+            <field name="group_id" ref="group_90"/>
+        </record>
+        <record id="acc_9030" model="custom.account.account">
+            <field name="code">9030</field>
+            <field name="name">Cost of Sales</field>
+            <field name="account_type">expense_direct_cost</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_90"/>
+        </record>
+
+        <!-- 91 — Other Income / Expenses -->
+        <record id="acc_9110" model="custom.account.account">
+            <field name="code">9110</field>
+            <field name="name">Other Income</field>
+            <field name="account_type">income_other</field>
+            <field name="normal_balance">credit</field>
+            <field name="group_id" ref="group_91"/>
+        </record>
+        <record id="acc_9120" model="custom.account.account">
+            <field name="code">9120</field>
+            <field name="name">Other Expenses</field>
+            <field name="account_type">expense</field>
+            <field name="normal_balance">debit</field>
+            <field name="group_id" ref="group_91"/>
+        </record>
+
+    </data>
+</odoo>

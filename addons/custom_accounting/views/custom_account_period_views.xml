@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ══ List ═══════════════════════════════════════════════════ -->
+        <record id="view_custom_account_period_list" model="ir.ui.view">
+            <field name="name">custom.account.period.list</field>
+            <field name="model">custom.account.period</field>
+            <field name="arch" type="xml">
+                <list string="Accounting Periods"
+                      decoration-success="state == 'draft'"
+                      decoration-muted="state == 'done'">
+                    <field name="name" string="Period"/>
+                    <field name="code" string="Code" optional="show"/>
+                    <field name="period_type" string="Type"/>
+                    <field name="date_start" string="Start"/>
+                    <field name="date_stop" string="End"/>
+                    <field name="state" string="Status" widget="badge"
+                           decoration-success="state == 'draft'"
+                           decoration-muted="state == 'done'"/>
+                    <field name="move_count" string="Journal Lines" optional="show"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ══ Form ═══════════════════════════════════════════════════ -->
+        <record id="view_custom_account_period_form" model="ir.ui.view">
+            <field name="name">custom.account.period.form</field>
+            <field name="model">custom.account.period</field>
+            <field name="arch" type="xml">
+                <form string="Accounting Period">
+                    <header>
+                        <button name="action_close" string="Close Period"
+                                type="object" class="btn-primary"
+                                invisible="state != 'draft'"
+                                confirm="Are you sure you want to close this period? Closed periods cannot receive new journal entries."/>
+                        <button name="action_reopen" string="Reopen Period"
+                                type="object" class="btn-secondary"
+                                invisible="state != 'done'"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object"
+                                    name="action_view_moves"
+                                    icon="fa-list"
+                                    invisible="move_count == 0">
+                                <field name="move_count" widget="statinfo" string="Lines"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1><field name="name" placeholder="e.g. January 2024"/></h1>
+                        </div>
+                        <group>
+                            <group string="Period Details">
+                                <field name="code"/>
+                                <field name="period_type"/>
+                                <field name="date_start"/>
+                                <field name="date_stop"/>
+                            </group>
+                            <group string="Company">
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Notes" name="notes">
+                                <field name="note" placeholder="Internal notes…"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ══ Search ════════════════════════════════════════════════ -->
+        <record id="view_custom_account_period_search" model="ir.ui.view">
+            <field name="name">custom.account.period.search</field>
+            <field name="model">custom.account.period</field>
+            <field name="arch" type="xml">
+                <search string="Search Periods">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <filter name="filter_open" string="Open" domain="[('state','=','draft')]"/>
+                    <filter name="filter_closed" string="Closed" domain="[('state','=','done')]"/>
+                    <separator/>
+                    <filter name="filter_monthly" string="Monthly" domain="[('period_type','=','month')]"/>
+                    <filter name="filter_quarterly" string="Quarterly" domain="[('period_type','=','quarter')]"/>
+                    <filter name="filter_annual" string="Annual" domain="[('period_type','=','year')]"/>
+                    <group>
+                        <filter name="group_by_type" string="Period Type" context="{'group_by':'period_type'}"/>
+                        <filter name="group_by_state" string="Status" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ══ Action ════════════════════════════════════════════════ -->
+        <record id="action_custom_account_period" model="ir.actions.act_window">
+            <field name="name">Accounting Periods</field>
+            <field name="res_model">custom.account.period</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_custom_account_period_search"/>
+            <field name="context">{'search_default_filter_open': 1}</field>
+        </record>
+
+    </data>
+</odoo>

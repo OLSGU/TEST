@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_upd_buyer_root"
+              name="ЭДО Покупатель (УПД)"
+              parent="account.menu_finance"
+              sequence="95"/>
+    <menuitem id="menu_upd_buyer_list"
+              name="Файлы информации покупателя"
+              parent="menu_upd_buyer_root"
+              action="action_upd_buyer"
+              sequence="10"/>
+</odoo>

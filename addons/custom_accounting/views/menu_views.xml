@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ══ Root menu under Accounting app ════════════════════════ -->
+        <menuitem id="menu_custom_accounting_root"
+                  name="Plan of Accounts"
+                  parent="account.menu_finance"
+                  sequence="5"
+                  groups="custom_accounting.group_custom_accounting_user"/>
+
+        <!-- ══ Chart of Accounts ══════════════════════════════════════ -->
+        <menuitem id="menu_custom_account_account"
+                  name="Chart of Accounts"
+                  parent="menu_custom_accounting_root"
+                  action="action_custom_account_account"
+                  sequence="10"
+                  groups="custom_accounting.group_custom_accounting_user"/>
+
+        <menuitem id="menu_custom_account_group"
+                  name="Account Groups"
+                  parent="menu_custom_accounting_root"
+                  action="action_custom_account_group"
+                  sequence="20"
+                  groups="custom_accounting.group_custom_accounting_manager"/>
+
+        <!-- ══ Periods ════════════════════════════════════════════════ -->
+        <menuitem id="menu_custom_account_period"
+                  name="Accounting Periods"
+                  parent="menu_custom_accounting_root"
+                  action="action_custom_account_period"
+                  sequence="30"
+                  groups="custom_accounting.group_custom_accounting_manager"/>
+
+        <!-- ══ Journal lines ══════════════════════════════════════════ -->
+        <menuitem id="menu_custom_account_move_line"
+                  name="Journal Lines (Plan)"
+                  parent="menu_custom_accounting_root"
+                  action="action_custom_account_move_line"
+                  sequence="40"
+                  groups="custom_accounting.group_custom_accounting_user"/>
+
+    </data>
+</odoo>

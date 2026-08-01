@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Ничего дополнительного не нужно — кнопка "Печать" появляется
+         автоматически через binding_model_id в ir.actions.report -->
+</odoo>

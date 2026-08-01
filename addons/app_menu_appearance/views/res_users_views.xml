@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Форма личных предпочтений пользователя («Мои настройки») -->
+    <record id="view_users_form_simple_modif_app_menu" model="ir.ui.view">
+        <field name="name">res.users.preferences.app.menu.appearance</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tz']" position="after">
+                <field name="app_menu_display_mode"/>
+                <field name="menu_bar_color" widget="menu_bar_color"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Полная форма пользователя (вкладка «Предпочтения», для администратора) -->
+    <record id="view_users_form_app_menu" model="ir.ui.view">
+        <field name="name">res.users.form.app.menu.appearance</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tz']" position="after">
+                <field name="app_menu_display_mode"/>
+                <field name="menu_bar_color" widget="menu_bar_color"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

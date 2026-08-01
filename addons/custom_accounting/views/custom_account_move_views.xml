@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ══ Inline list view for custom journal lines ══════════════ -->
+        <record id="view_custom_account_move_line_list_inline" model="ir.ui.view">
+            <field name="name">custom.account.move.line.list.inline</field>
+            <field name="model">custom.account.move.line</field>
+            <field name="arch" type="xml">
+                <list string="Custom Journal Lines"
+                      editable="bottom"
+                      decoration-danger="not reconciled and credit > 0"
+                      decoration-info="debit > 0">
+                    <field name="custom_account_id" string="Account (Plan)"
+                           options="{'no_quick_create': True}"
+                           domain="[('deprecated','=',False)]"/>
+                    <field name="name" string="Label"/>
+                    <field name="partner_id" string="Partner" optional="show"/>
+                    <field name="ref" string="Reference" optional="hide"/>
+                    <field name="date" string="Date" readonly="1" optional="show"/>
+                    <field name="period_id" string="Period" readonly="1" optional="show"/>
+                    <field name="debit" string="Debit" sum="Total Debit"/>
+                    <field name="credit" string="Credit" sum="Total Credit"/>
+                    <field name="balance" string="Balance" sum="Net Balance" readonly="1" optional="show"/>
+                    <field name="currency_id" string="Currency" optional="hide"/>
+                    <field name="amount_currency" string="Amt. Currency" optional="hide"/>
+                    <field name="reconciled" string="Reconciled" optional="show" widget="boolean_toggle" readonly="1"/>
+                    <field name="tax_ids" string="Taxes" optional="hide" widget="many2many_tags"/>
+                    <field name="odoo_move_line_id" string="Odoo Line Ref" optional="hide" readonly="1"/>
+                    <field name="move_state" column_invisible="True"/>
+                    <field name="company_id" column_invisible="True"/>
+                    <field name="company_currency_id" column_invisible="True"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ══ Standalone list view for custom move lines ════════════ -->
+        <record id="view_custom_account_move_line_list" model="ir.ui.view">
+            <field name="name">custom.account.move.line.list</field>
+            <field name="model">custom.account.move.line</field>
+            <field name="arch" type="xml">
+                <list string="Journal Entry Lines"
+                      decoration-danger="move_state == 'cancel'"
+                      decoration-muted="move_state == 'draft'"
+                      default_order="date desc">
+                    <field name="move_name" string="Entry"/>
+                    <field name="date" string="Date"/>
+                    <field name="custom_account_id" string="Account"/>
+                    <field name="partner_id" string="Partner" optional="show"/>
+                    <field name="name" string="Label"/>
+                    <field name="debit" string="Debit" sum="Total Debit"/>
+                    <field name="credit" string="Credit" sum="Total Credit"/>
+                    <field name="balance" string="Balance" sum="Net" optional="show"/>
+                    <field name="move_state" string="State" widget="badge"
+                           decoration-success="move_state == 'posted'"
+                           decoration-warning="move_state == 'draft'"
+                           decoration-danger="move_state == 'cancel'"/>
+                    <field name="period_id" optional="show"/>
+                    <field name="reconciled" optional="show"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ══ account.move form inheritance — add extra tab ═════════ -->
+        <record id="view_account_move_custom_journal_tab" model="ir.ui.view">
+            <field name="name">account.move.form.custom.journal.tab</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Inject stat buttons into button_box -->
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" type="object"
+                            name="action_sync_custom_lines"
+                            icon="fa-refresh"
+                            string="Sync Lines"
+                            help="Import journal lines into the custom plan-of-accounts breakdown."
+                            groups="custom_accounting.group_custom_accounting_user"/>
+                </xpath>
+
+                <!-- Add the extra notebook tab AFTER the last existing page -->
+                <xpath expr="//notebook" position="inside">
+                    <page string="Journal Entry Breakdown" name="custom_journal_breakdown"
+                          groups="custom_accounting.group_custom_accounting_user">
+                        <div class="o_field_widget o_stat_info mb-2">
+                            <group class="o_group o_inner_group">
+                                <group string="Totals">
+                                    <field name="custom_total_debit"
+                                           widget="monetary"
+                                           string="Total Debit"/>
+                                    <field name="custom_total_credit"
+                                           widget="monetary"
+                                           string="Total Credit"/>
+                                    <field name="custom_balance"
+                                           widget="monetary"
+                                           string="Net Balance"/>
+                                </group>
+                                <group string="Status">
+                                    <field name="custom_is_balanced" string="Balanced"
+                                           widget="boolean"
+                                           readonly="1"/>
+                                    <field name="custom_lines_synced" string="Auto-synced"
+                                           widget="boolean"
+                                           readonly="1"/>
+                                </group>
+                            </group>
+                        </div>
+
+                        <!-- Custom journal lines table (auto-filled on post) -->
+                        <field name="custom_journal_line_ids"
+                               widget="one2many">
+                            <list string="Journal Entry Lines — Plan of Accounts"
+                                  editable="bottom"
+                                  decoration-info="line_type == 'receivable'"
+                                  decoration-success="line_type == 'product'"
+                                  decoration-warning="line_type == 'tax'">
+                                <field name="sequence" widget="handle"/>
+                                <field name="line_type" string="Type" optional="show"
+                                       widget="badge"
+                                       decoration-info="line_type == 'receivable'"
+                                       decoration-success="line_type == 'product'"
+                                       decoration-warning="line_type == 'tax'"
+                                       decoration-muted="line_type == 'other'"/>
+                                <field name="odoo_account_code" string="Std. Code"
+                                       readonly="1" optional="show"/>
+                                <field name="odoo_account_name" string="Std. Account"
+                                       readonly="1" optional="show"/>
+                                <field name="custom_account_id" string="Plan Account"
+                                       options="{'no_quick_create': True}"
+                                       domain="[('deprecated','=',False)]"/>
+                                <field name="name" string="Label"/>
+                                <field name="partner_id" string="Partner" optional="show"/>
+                                <field name="ref" string="Ref" optional="hide"/>
+                                <field name="date" string="Date" readonly="1" optional="show"/>
+                                <field name="period_id" string="Period" readonly="1" optional="show"/>
+                                <field name="debit" string="Debit" sum="Total Debit"/>
+                                <field name="credit" string="Credit" sum="Total Credit"/>
+                                <field name="balance" string="Balance" readonly="1"
+                                       sum="Net Balance" optional="show"/>
+                                <field name="currency_id" optional="hide"/>
+                                <field name="amount_currency" optional="hide"/>
+                                <field name="reconciled" readonly="1" optional="show" widget="boolean_toggle"/>
+                                <field name="tax_ids" optional="hide" widget="many2many_tags"/>
+                                <field name="odoo_move_line_id" optional="hide" readonly="1"/>
+                                <field name="move_state" column_invisible="True"/>
+                                <field name="company_id" column_invisible="True"/>
+                                <field name="company_currency_id" column_invisible="True"/>
+                            </list>
+                        </field>
+
+                        <!-- Balance warning -->
+                        <div class="alert alert-warning mt-2"
+                             invisible="custom_is_balanced or not custom_journal_line_ids">
+                            <i class="fa fa-exclamation-triangle me-1"/>
+                            <strong>Внимание:</strong> Строки не сбалансированы (Дебет ≠ Кредит).
+                        </div>
+                        <!-- Info when no lines yet (draft state) -->
+                        <div class="alert alert-info mt-2"
+                             invisible="custom_journal_line_ids">
+                            <i class="fa fa-info-circle me-1"/>
+                            Строки заполняются <strong>автоматически</strong> при подтверждении документа
+                            на основе проводок, сформированных правилами локализации.<br/>
+                            Для уже подтверждённых документов используйте кнопку
+                            <strong>Sync Lines</strong> (например, после обновления плана счетов).
+                        </div>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- ══ Standalone action for custom journal lines ════════════ -->
+        <record id="action_custom_account_move_line" model="ir.actions.act_window">
+            <field name="name">Journal Entry Lines (Plan)</field>
+            <field name="res_model">custom.account.move.line</field>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="view_custom_account_move_line_list"/>
+        </record>
+
+    </data>
+</odoo>
