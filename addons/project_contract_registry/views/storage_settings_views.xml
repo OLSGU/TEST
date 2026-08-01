@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pcr_storage_settings_form" model="ir.ui.view">
+        <field name="name">pcr.storage.settings.form</field>
+        <field name="model">pcr.storage.settings</field>
+        <field name="arch" type="xml">
+            <form string="Настройки хранилища">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Хранилище документов реестра</h1>
+                    </div>
+                    <group>
+                        <field name="backend" widget="radio"/>
+                    </group>
+                    <group string="WebDAV / Яндекс.Диск"
+                           invisible="backend != 'webdav'">
+                        <field name="webdav_url"
+                               placeholder="https://webdav.yandex.ru"
+                               required="backend == 'webdav'"/>
+                        <field name="webdav_username"/>
+                        <field name="webdav_password" password="True"/>
+                        <field name="webdav_base_dir"/>
+                    </group>
+                    <group string="FTP / FTPS"
+                           invisible="backend != 'ftp'">
+                        <field name="ftp_host" required="backend == 'ftp'"/>
+                        <field name="ftp_port"/>
+                        <field name="ftp_username"/>
+                        <field name="ftp_password" password="True"/>
+                        <field name="ftp_base_dir"/>
+                        <field name="ftp_tls"/>
+                    </group>
+                    <div class="text-muted" invisible="backend == 'filestore'">
+                        <p>Настройка влияет только на документы реестра
+                            (pcr.document) и применяется к вновь загружаемым или
+                            изменяемым файлам. Ранее сохранённые файлы остаются
+                            в том хранилище, куда были записаны.</p>
+                    </div>
+                </sheet>
+                <footer>
+                    <button name="action_save" type="object" string="Сохранить"
+                            class="btn-primary"/>
+                    <button name="action_test" type="object"
+                            string="Проверить подключение" class="btn-secondary"
+                            invisible="backend == 'filestore'"/>
+                    <button string="Отмена" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pcr_storage_config" model="ir.actions.act_window">
+        <field name="name">Настройки хранилища</field>
+        <field name="res_model">pcr.storage.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_pcr_storage_settings_form"/>
+    </record>
+
+</odoo>

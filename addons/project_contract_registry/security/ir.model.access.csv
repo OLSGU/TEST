@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_pcr_project_user,pcr.project.user,model_pcr_project,base.group_user,1,1,1,1
 access_pcr_contract_user,pcr.contract.user,model_pcr_contract,base.group_user,1,1,1,1
 access_pcr_document_user,pcr.document.user,model_pcr_document,base.group_user,1,1,1,1
+access_pcr_storage_settings_admin,pcr.storage.settings.admin,model_pcr_storage_settings,base.group_system,1,1,1,1

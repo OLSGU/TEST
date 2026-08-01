@@ -2,4 +2,4 @@
 from . import project
 from . import contract
 from . import document
-from . import res_config_settings
+from . import storage_settings
