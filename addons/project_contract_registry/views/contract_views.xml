@@ -50,6 +50,11 @@
                             <field name="document_count" widget="statinfo"
                                    string="Документы"/>
                         </button>
+                        <button name="action_view_invoices" type="object"
+                                class="oe_stat_button" icon="fa-pencil-square-o">
+                            <field name="invoice_count" widget="statinfo"
+                                   string="Счета"/>
+                        </button>
                     </div>
                     <div class="oe_title">
                         <label for="name"/>
@@ -69,6 +74,11 @@
                             <field name="amount"/>
                             <field name="currency_id"/>
                         </group>
+                        <group string="Расчёт по договору" name="accounting">
+                            <field name="amount_invoiced"/>
+                            <field name="amount_residual_to_invoice"/>
+                            <field name="invoiced_progress" widget="percentage"/>
+                        </group>
                     </group>
                     <notebook>
                         <page string="Документы" name="documents">
@@ -78,6 +88,21 @@
                                     <field name="name"/>
                                     <field name="doc_type"/>
                                     <field name="date"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Счета" name="invoices">
+                            <field name="invoice_ids"
+                                   context="{'default_pcr_contract_id': id,
+                                             'default_partner_id': partner_id}">
+                                <list string="Счета" create="false">
+                                    <field name="name"/>
+                                    <field name="invoice_date"/>
+                                    <field name="move_type"/>
+                                    <field name="amount_total" sum="Итого"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="payment_state" widget="badge"/>
                                     <field name="state" widget="badge"/>
                                 </list>
                             </field>
