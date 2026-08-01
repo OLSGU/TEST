@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pcr_contract_form_account" model="ir.ui.view">
+        <field name="name">pcr.contract.form.account</field>
+        <field name="model">pcr.contract</field>
+        <field name="inherit_id"
+               ref="project_contract_registry.view_pcr_contract_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Смарт-кнопка со счётчиком счетов -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_invoices" type="object"
+                        class="oe_stat_button" icon="fa-pencil-square-o">
+                    <field name="invoice_count" widget="statinfo" string="Счета"/>
+                </button>
+            </xpath>
+
+            <!-- Блок расчёта сумм по договору -->
+            <xpath expr="//notebook" position="before">
+                <group name="accounting">
+                    <group string="Расчёт по договору">
+                        <field name="amount_invoiced"/>
+                        <field name="amount_residual_to_invoice"/>
+                        <field name="invoiced_progress" widget="percentage"/>
+                    </group>
+                </group>
+            </xpath>
+
+            <!-- Вкладка со связанными счетами -->
+            <xpath expr="//page[@name='documents']" position="after">
+                <page string="Счета" name="invoices">
+                    <field name="invoice_ids"
+                           context="{'default_pcr_contract_id': id,
+                                     'default_pcr_project_id': project_id,
+                                     'default_partner_id': partner_id}">
+                        <list string="Счета" create="false">
+                            <field name="name"/>
+                            <field name="invoice_date"/>
+                            <field name="move_type"/>
+                            <field name="amount_total" sum="Итого"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="payment_state" widget="badge"/>
+                            <field name="state" widget="badge"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

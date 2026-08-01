@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Форма счёта: поля «Договор» и «Проект» под контрагентом -->
-    <record id="view_move_form_pcr_contract" model="ir.ui.view">
-        <field name="name">account.move.form.pcr.contract</field>
+    <!-- Форма счёта: «Договор» и «Проект» под контрагентом -->
+    <record id="view_move_form_pcr" model="ir.ui.view">
+        <field name="name">account.move.form.pcr</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//group[@id='header_left_group']" position="inside">
                 <field name="pcr_contract_id"
                        options="{'no_create': True}"
-                       domain="['|', ('partner_id', '=', partner_id), ('partner_id', '=', False)]"
                        invisible="move_type == 'entry'"
                        readonly="state != 'draft'"/>
                 <field name="pcr_project_id"
-                       invisible="move_type == 'entry' or not pcr_contract_id"/>
+                       options="{'no_create': True}"
+                       invisible="move_type == 'entry'"
+                       readonly="state != 'draft'"/>
             </xpath>
         </field>
     </record>
 
     <!-- Список счетов: колонки «Договор» и «Проект» -->
-    <record id="view_invoice_tree_pcr_contract" model="ir.ui.view">
-        <field name="name">account.move.list.pcr.contract</field>
+    <record id="view_invoice_tree_pcr" model="ir.ui.view">
+        <field name="name">account.move.list.pcr</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree"/>
         <field name="arch" type="xml">
@@ -32,9 +33,9 @@
         </field>
     </record>
 
-    <!-- Поиск/группировка счетов по договору и проекту -->
-    <record id="view_account_invoice_filter_pcr_contract" model="ir.ui.view">
-        <field name="name">account.move.search.pcr.contract</field>
+    <!-- Поиск и группировка счетов по договору и проекту -->
+    <record id="view_account_invoice_filter_pcr" model="ir.ui.view">
+        <field name="name">account.move.search.pcr</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_account_invoice_filter"/>
         <field name="arch" type="xml">
