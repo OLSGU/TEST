@@ -104,14 +104,12 @@
                 <separator/>
                 <filter name="filter_archived" string="В архиве"
                         domain="[('active', '=', False)]"/>
-                <group string="Группировка">
-                    <filter name="group_state" string="Статус"
-                            context="{'group_by': 'state'}"/>
-                    <filter name="group_manager" string="Руководитель"
-                            context="{'group_by': 'manager_id'}"/>
-                    <filter name="group_partner" string="Заказчик"
-                            context="{'group_by': 'partner_id'}"/>
-                </group>
+                <filter name="group_state" string="Статус"
+                        context="{'group_by': 'state'}"/>
+                <filter name="group_manager" string="Руководитель"
+                        context="{'group_by': 'manager_id'}"/>
+                <filter name="group_partner" string="Заказчик"
+                        context="{'group_by': 'partner_id'}"/>
             </search>
         </field>
     </record>

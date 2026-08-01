@@ -108,16 +108,14 @@
                 <separator/>
                 <filter name="filter_archived" string="В архиве"
                         domain="[('active', '=', False)]"/>
-                <group string="Группировка">
-                    <filter name="group_state" string="Статус"
-                            context="{'group_by': 'state'}"/>
-                    <filter name="group_project" string="Проект"
-                            context="{'group_by': 'project_id'}"/>
-                    <filter name="group_partner" string="Контрагент"
-                            context="{'group_by': 'partner_id'}"/>
-                    <filter name="group_type" string="Тип договора"
-                            context="{'group_by': 'contract_type'}"/>
-                </group>
+                <filter name="group_state" string="Статус"
+                        context="{'group_by': 'state'}"/>
+                <filter name="group_project" string="Проект"
+                        context="{'group_by': 'project_id'}"/>
+                <filter name="group_partner" string="Контрагент"
+                        context="{'group_by': 'partner_id'}"/>
+                <filter name="group_type" string="Тип договора"
+                        context="{'group_by': 'contract_type'}"/>
             </search>
         </field>
     </record>
