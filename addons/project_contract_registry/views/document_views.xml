@@ -53,6 +53,7 @@
                             <field name="date"/>
                             <field name="file" filename="file_name"/>
                             <field name="file_name" invisible="1"/>
+                            <field name="storage_type" invisible="not file"/>
                         </group>
                     </group>
                     <group string="Примечание">
