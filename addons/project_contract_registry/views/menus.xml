@@ -23,4 +23,11 @@
               action="action_pcr_document"
               sequence="30"/>
 
+    <menuitem id="menu_pcr_storage_config"
+              name="Настройки хранилища"
+              parent="menu_pcr_root"
+              action="action_pcr_storage_config"
+              groups="base.group_system"
+              sequence="90"/>
+
 </odoo>

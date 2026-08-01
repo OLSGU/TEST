@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Реестр договоров и документов по проектам",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "summary": "Учёт проектов, договоров и связанных документов (пилот)",
     "description": """
 Пилотный модуль реестра договоров и документов по проектам.
@@ -22,6 +22,7 @@
         "views/project_views.xml",
         "views/contract_views.xml",
         "views/document_views.xml",
+        "views/res_config_settings_views.xml",
         "views/menus.xml",
     ],
     "application": True,

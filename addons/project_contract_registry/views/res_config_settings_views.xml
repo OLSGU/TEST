@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pcr_storage_config_settings" model="ir.ui.view">
+        <field name="name">pcr.storage.config.settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="arch" type="xml">
+            <form string="Настройки хранилища" class="oe_form_configuration">
+                <header>
+                    <button string="Сохранить" type="object" name="execute"
+                            class="oe_highlight"/>
+                    <button string="Отменить" type="object" name="cancel"
+                            special="cancel"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Хранилище документов реестра</h1>
+                    </div>
+                    <group>
+                        <field name="pcr_storage_backend" widget="radio"/>
+                    </group>
+                    <group string="WebDAV / Яндекс.Диск"
+                           invisible="pcr_storage_backend != 'webdav'">
+                        <field name="pcr_webdav_url"
+                               placeholder="https://webdav.yandex.ru"
+                               required="pcr_storage_backend == 'webdav'"/>
+                        <field name="pcr_webdav_username"/>
+                        <field name="pcr_webdav_password" password="True"/>
+                        <field name="pcr_webdav_base_dir"/>
+                    </group>
+                    <group string="FTP / FTPS"
+                           invisible="pcr_storage_backend != 'ftp'">
+                        <field name="pcr_ftp_host"
+                               required="pcr_storage_backend == 'ftp'"/>
+                        <field name="pcr_ftp_port"/>
+                        <field name="pcr_ftp_username"/>
+                        <field name="pcr_ftp_password" password="True"/>
+                        <field name="pcr_ftp_base_dir"/>
+                        <field name="pcr_ftp_tls"/>
+                    </group>
+                    <group invisible="pcr_storage_backend == 'filestore'">
+                        <button name="action_pcr_test_storage" type="object"
+                                string="Проверить подключение"
+                                class="btn-secondary"/>
+                    </group>
+                    <div class="text-muted"
+                         invisible="pcr_storage_backend == 'filestore'">
+                        <p>Настройка влияет только на документы реестра
+                            (pcr.document) и применяется к вновь загружаемым или
+                            изменяемым файлам. Ранее сохранённые файлы остаются
+                            в том хранилище, куда были записаны.</p>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pcr_storage_config" model="ir.actions.act_window">
+        <field name="name">Настройки хранилища</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="view_id" ref="view_pcr_storage_config_settings"/>
+        <field name="context">{'module': 'project_contract_registry'}</field>
+    </record>
+
+</odoo>
